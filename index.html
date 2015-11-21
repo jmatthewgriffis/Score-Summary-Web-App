@@ -89,15 +89,11 @@
 		}
 	</script>
 
-	<div class="list-group" ng-controller="ReviewController as reviewCtrl">
+	<div class="studentList" ng-controller="ReviewController as reviewCtrl">
 		<!-- Students -->
-		<div ng-repeat="product in reviewCtrl.products" class="list-group-item">
-			<section>
-				<div>
-					<strong>{{product.name}} :</strong>
-					<cite class="clearfix">-{{product.score}}</cite>
-				</div>
-			</section>
+		<div class="student" ng-repeat="product in reviewCtrl.products">
+			<div class="name">{{product.name}}</div>
+			<div class="score">{{product.score}}</div>
 		</div>
 
 		<!--  Add student Form -->
@@ -108,12 +104,12 @@
 				<cite class="clearfix">-{{reviewCtrl.review.author}}</cite>
 			</blockquote>-->
 
-			<fieldset class="form-group">
-				<input type="text" class="form-control" placeholder="Name..." title="Review" ng-model="reviewCtrl.review.name" required></textarea>
+			<fieldset>
+				<input class="name" type="text" placeholder="Name..." title="Review" ng-model="reviewCtrl.review.name" required></textarea>
 
-				<input type="number" class="form-control" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" required />
+				<input class="score" type="number" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" required />
 				
-				<input type="submit" class="btn btn-primary pull-right" value="Add Student" />
+				<input type="submit" value="Add Student" />
 			</fieldset>
 		</form>
 	</div>

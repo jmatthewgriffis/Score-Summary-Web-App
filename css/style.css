@@ -12,3 +12,27 @@ input {
 	max-width: 42%;
 	display: inline-block!important;
 }
+
+.student div
+{
+	position: relative;
+	display: inline-block;
+	margin: 10px;
+	padding: 10px;
+	border: 1px solid black;
+}
+
+.name
+{
+	width: 10em;
+	margin: 10px;
+	padding: 10px;
+}
+
+.score
+{
+	text-align: center;
+	width: 4em;
+	margin: 10px;
+	padding: 10px;
+}
