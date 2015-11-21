@@ -89,19 +89,19 @@
 		}
 	</script>
 
-	<div class="list-group">
+	<div class="list-group" ng-controller="ReviewController as reviewCtrl">
 		<!-- Students -->
-		<div ng-repeat="product in store.products" class="list-group-item">
+		<div ng-repeat="product in reviewCtrl.products" class="list-group-item">
 			<section>
 				<div>
 					<strong>{{product.name}} :</strong>
-					<cite class="clearfix">-{{product.grade}}</cite>
+					<cite class="clearfix">-{{product.score}}</cite>
 				</div>
 			</section>
 		</div>
 
 		<!--  Add student Form -->
-		<form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate>
+		<form name="reviewForm" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" novalidate>
 			<!--<blockquote>
 				<strong>{{reviewCtrl.review.stars}} Stars</strong>
 				{{reviewCtrl.review.body}}
@@ -109,11 +109,11 @@
 			</blockquote>-->
 
 			<fieldset class="form-group">
-				<input type="text" class="form-control" placeholder="Add student name..." title="Review" ng-model="reviewCtrl.review.body" required></textarea>
+				<input type="text" class="form-control" placeholder="Name..." title="Review" ng-model="reviewCtrl.review.name" required></textarea>
 
-				<input type="number" class="form-control" placeholder="Add test grade..." title="Email" ng-model="reviewCtrl.review.author" required />
+				<input type="number" class="form-control" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" required />
 				
-				<input type="submit" class="btn btn-primary pull-right" value="Submit" />
+				<input type="submit" class="btn btn-primary pull-right" value="Add Student" />
 			</fieldset>
 		</form>
 	</div>

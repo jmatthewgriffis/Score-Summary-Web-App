@@ -4,8 +4,6 @@
 
 	app.controller('StoreController', ['$http', function($http)
 	{
-		this.products = students;
-
 		/*var store = this;
 		store.products = [];	
 		$http.get('json/products.json').success(function(data)
@@ -16,11 +14,13 @@
 
 	app.controller('ReviewController', function()
 	{
+		this.products = students;
 		this.review = {};
-		this.addReview = function(product)
+		this.addReview = function()
 		{
-			this.review.createdOn = Date.now();
-			product.reviews.push(this.review);
+			// this.review.createdOn = Date.now();
+			if (debug) { console.log(this.review); }
+			this.products.push(this.review);
 			this.review = {};
 		};
 	});
@@ -29,15 +29,15 @@
 	[
 		{
 			name: 'Mary',
-			grade: 75
+			score: 75
 		},
 		{
 			name: 'Tyler',
-			grade: 32
+			score: 32
 		},
 		{
 			name: 'Moore',
-			grade: 90
+			score: 90
 		}
 	];
 })();
