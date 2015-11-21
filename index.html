@@ -43,6 +43,7 @@
 			document.write(localStorage.getItem("name")); //Hello World!
 			//localStorage.removeItem("name"); //deletes the matching item from the database
 		}*/
+		var debug = false;
 		var students = [
 			{mary: 75},
 			{joe: 32}
@@ -61,7 +62,7 @@
 				try
 				{
 					localStorage.setItem('students', studentsJSON); //saves to the database, “key”, “value”
-					console.log('students set!');
+					if (debug) { console.log('students set!'); }
 				}
 				catch (e)
 				{
@@ -73,33 +74,48 @@
 			}
 			else
 			{
-				console.log('students array already exists!');
+				if (debug) { console.log('students array already exists!'); }
 			}
-			document.write(localStorage.getItem('students')); //Hello World!
+			if (debug) { document.write(localStorage.getItem('students')); } //Hello World!
 			//localStorage.removeItem('students'); //deletes the matching item from the database
 			var studentsJSONparsed = JSON.parse(localStorage.getItem('students'));
-			console.log(studentsJSONparsed);
+			if (debug) { console.log(studentsJSONparsed); }
 			//console.log("mary's score = " + studentsJSONparsed.mary);
 			studentsJSONparsed.forEach(function(key, value)
 			{
-			    console.log(key + ' = ' + value);
+			    if (debug) { console.log(key + ' = ' + value); }
 			});
 
 		}
 	</script>
 
-	<header>
-		<h1 class="text-center">Flatlander Crafted Gems</h1>
-		<h2 class="text-center">- an Angular store -</h2>
-	</header>
-
 	<div class="list-group">
-		<div ng-repeat="product in store.products" ng-hide="product.soldOut" class="list-group-item">
-			<product-title></product-title>
-			<!-- <button ng-show="product.canPurchase">Add to Cart</button> -->
-			<product-gallery></product-gallery>
-			<product-tabs></product-tabs>
+		<!-- Students -->
+		<div ng-repeat="product in store.products" class="list-group-item">
+			<section>
+				<div>
+					<strong>{{product.name}} :</strong>
+					<cite class="clearfix">-{{product.grade}}</cite>
+				</div>
+			</section>
 		</div>
+
+		<!--  Add student Form -->
+		<form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewForm.$valid && reviewCtrl.addReview(product)" novalidate>
+			<!--<blockquote>
+				<strong>{{reviewCtrl.review.stars}} Stars</strong>
+				{{reviewCtrl.review.body}}
+				<cite class="clearfix">-{{reviewCtrl.review.author}}</cite>
+			</blockquote>-->
+
+			<fieldset class="form-group">
+				<input type="text" class="form-control" placeholder="Add student name..." title="Review" ng-model="reviewCtrl.review.body" required></textarea>
+
+				<input type="number" class="form-control" placeholder="Add test grade..." title="Email" ng-model="reviewCtrl.review.author" required />
+				
+				<input type="submit" class="btn btn-primary pull-right" value="Submit" />
+			</fieldset>
+		</form>
 	</div>
 
 </body>

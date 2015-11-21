@@ -1,31 +1,11 @@
 <section>
-	<!-- Tabs -->
-	<ul class="nav nav-pills">
-		<li ng-class="{active:tab.isSet(1)}">
-			<a href="" ng-click="tab.setTab(1)">Description</a>
-		</li>
-		<li ng-class="{active:tab.isSet(2)}">
-			<a href="" ng-click="tab.setTab(2)">Specs</a>
-		</li>
-		<li ng-class="{active:tab.isSet(3)}">
-			<a href="" ng-click="tab.setTab(3)">Reviews</a>
-		</li>
-	</ul>
-	<!-- Desc -->
-	<product-description ng-show="tab.isSet(1)"></product-description>
-	<!-- Specs -->
-	<div product-specs ng-show="tab.isSet(2)"></div>
-	<!-- Reviews -->
 	<div ng-show="tab.isSet(3)">
 		<ul>
 			<h4>Reviews</h4>
-			<li ng-repeat="review in product.reviews">
-				<blockquote>
-					<strong>{{review.stars}} Stars</strong>
-					{{review.body}}
-					<cite class="clearfix">-{{review.author}} on {{review.createdOn | date}}</cite>
-				</blockquote>
-			</li>
+			<blockquote>
+				<strong>{{product.name}} :</strong>
+				<cite class="clearfix">-{{product.grade}}</cite>
+			</blockquote>
 		</ul>
 
 		<!--  Review Form -->
