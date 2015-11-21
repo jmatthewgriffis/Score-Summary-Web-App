@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html ng-app="gemStore">
+<head>
+
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/products.js"></script>
+
+</head>
+<body ng-controller="StoreController as store">
+	<!-- FIND ME YO -->
+	<script type="text/javascript">
+	// Thanks to http://html5tutorial.net/tutorials/working-with-html5-localstorage.html
+	// Also to http://samcroft.co.uk/2013/using-localstorage-to-store-json/
+	// Also to http://stackoverflow.com/questions/3138564/looping-through-localstorage-in-html5-and-javascript
+		/*if (typeof(localStorage) == 'undefined' )
+		{
+			alert('Your browser does not support HTML5 localStorage. Try upgrading.');
+		}
+		else
+		{
+			if (localStorage.getItem("name") === null)
+			{
+				try
+				{
+					localStorage.setItem("name", "Hello World!"); //saves to the database, “key”, “value”
+					console.log('name set!');
+				}
+				catch (e)
+				{
+					if (e == QUOTA_EXCEEDED_ERR)
+					{
+						alert('Quota exceeded!'); //data wasn’t successfully saved due to quota exceed so throw an error
+					}
+				}
+			}
+			else
+			{
+				console.log('name already exists!');
+			}
+			document.write(localStorage.getItem("name")); //Hello World!
+			//localStorage.removeItem("name"); //deletes the matching item from the database
+		}*/
+		var students = [
+			{mary: 75},
+			{joe: 32}
+		];
+		var mary = {mary: 75};
+		var joe = {joe: 32};
+		var studentsJSON = JSON.stringify(students);
+		if (typeof(localStorage) == 'undefined' )
+		{
+			alert('Your browser does not support HTML5 localStorage. Try upgrading.');
+		}
+		else
+		{
+			if (localStorage.getItem('students') === null)
+			{
+				try
+				{
+					localStorage.setItem('students', studentsJSON); //saves to the database, “key”, “value”
+					console.log('students set!');
+				}
+				catch (e)
+				{
+					if (e == QUOTA_EXCEEDED_ERR)
+					{
+						alert('Quota exceeded!'); //data wasn’t successfully saved due to quota exceed so throw an error
+					}
+				}
+			}
+			else
+			{
+				console.log('students array already exists!');
+			}
+			document.write(localStorage.getItem('students')); //Hello World!
+			//localStorage.removeItem('students'); //deletes the matching item from the database
+			var studentsJSONparsed = JSON.parse(localStorage.getItem('students'));
+			console.log(studentsJSONparsed);
+			//console.log("mary's score = " + studentsJSONparsed.mary);
+			studentsJSONparsed.forEach(function(key, value)
+			{
+			    console.log(key + ' = ' + value);
+			});
+
+		}
+	</script>
+
+	<header>
+		<h1 class="text-center">Flatlander Crafted Gems</h1>
+		<h2 class="text-center">- an Angular store -</h2>
+	</header>
+
+	<div class="list-group">
+		<div ng-repeat="product in store.products" ng-hide="product.soldOut" class="list-group-item">
+			<product-title></product-title>
+			<!-- <button ng-show="product.canPurchase">Add to Cart</button> -->
+			<product-gallery></product-gallery>
+			<product-tabs></product-tabs>
+		</div>
+	</div>
+
+</body>
+</html>
