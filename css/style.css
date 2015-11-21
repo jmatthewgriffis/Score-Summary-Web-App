@@ -8,31 +8,38 @@
 	border-color: green;
 }
 
-input {
-	max-width: 42%;
-	display: inline-block!important;
-}
+/* MINE */
 
 .student div
 {
 	position: relative;
 	display: inline-block;
-	margin: 10px;
-	padding: 10px;
+	/*margin: 10px;*/
+	/*padding: 10px;*/
 	border: 1px solid black;
+	height: 5em;
+}
+
+.student input
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 
 .name
 {
 	width: 10em;
-	margin: 10px;
-	padding: 10px;
+	/*margin: 10px;*/
+	/*padding: 10px;*/
 }
 
 .score
 {
 	text-align: center;
 	width: 4em;
-	margin: 10px;
-	padding: 10px;
+	/*margin: 10px;*/
+	/*padding: 10px;*/
 }
