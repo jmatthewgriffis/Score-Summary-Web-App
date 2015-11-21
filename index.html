@@ -89,43 +89,27 @@
 		}
 	</script>
 
-	<div class="studentList" ng-controller="ReviewController as reviewCtrl">
-		<!-- Students -->
-		<div class="student" ng-repeat="product in reviewCtrl.products" ng-click="reviewCtrl.setActive($index)">
-			<form name="reviewForm" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" novalidate>
-				<!--<blockquote>
-					<strong>{{reviewCtrl.review.stars}} Stars</strong>
-					{{reviewCtrl.review.body}}
-					<cite class="clearfix">-{{reviewCtrl.review.author}}</cite>
-				</blockquote>-->
-
-				<fieldset>
-					<div class="name">
-						{{product.name}}
-						<input type="text" placeholder="Name..." title="Review" ng-model="reviewCtrl.review.name" ng-show="reviewCtrl.checkActive($index)" required />
-					</div>
-
-					<div class="score">
-						{{product.score}}
-						<input type="number" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" ng-show="reviewCtrl.checkActive($index)" required />
-					</div>
-					
-					<!-- <input type="submit" value="Add Student" /> -->
-				</fieldset>
-			</form>
-			<br>
-		</div>
-
-		<!--  Add student Form -->
-		<form name="reviewForm" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" ng-show="reviewCtrl.checkActive(-1)" novalidate>
-			<!--<blockquote>
-				<strong>{{reviewCtrl.review.stars}} Stars</strong>
-				{{reviewCtrl.review.body}}
-				<cite class="clearfix">-{{reviewCtrl.review.author}}</cite>
-			</blockquote>-->
-
+	<div class="studentsContainer" ng-controller="ReviewController as reviewCtrl">
+		<!-- Current students -->
+		<form class="currentStudent" name="reviewForm" ng-repeat="product in reviewCtrl.products" ng-click="reviewCtrl.setActive($index)" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" novalidate>
 			<fieldset>
-				<input class="name" type="text" placeholder="Name..." title="Review" ng-model="reviewCtrl.review.name" required></textarea>
+				<div class="name">
+					{{product.name}}
+					<input type="text" placeholder="Name..." title="Review" ng-model="reviewCtrl.review.name" ng-show="reviewCtrl.checkActive($index)" required />
+				</div>
+
+				<div class="score">
+					{{product.score}}
+					<input type="number" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" ng-show="reviewCtrl.checkActive($index)" required />
+				</div>
+				
+				<!-- <input type="submit" value="Add Student" /> -->
+			</fieldset>
+		</form>
+		<!--  New student -->
+		<form class="newStudent" name="reviewForm" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" ng-show="reviewCtrl.checkActive(-1)" novalidate>
+			<fieldset>
+				<input class="name" type="text" placeholder="Name..." title="Review" ng-model="reviewCtrl.review.name" required />
 
 				<input class="score" type="number" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" required />
 				
