@@ -15,6 +15,11 @@
 	display: none;
 }
 
+.highlight
+{
+	background-color: green;
+}
+
 .currentStudent div
 {
 	position: relative;

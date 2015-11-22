@@ -91,7 +91,7 @@
 
 	<div class="studentsContainer" ng-controller="ReviewController as reviewCtrl">
 		<!-- Current students -->
-		<form class="currentStudent" name="reviewForm" ng-repeat="product in reviewCtrl.products" ng-click="reviewCtrl.editEntry($index)" ng-submit="reviewCtrl.doneEditingEntry($index)" novalidate>
+		<form class="currentStudent" ng-class="{ 'highlight' : reviewCtrl.checkActive($index) }" name="reviewForm" ng-repeat="product in reviewCtrl.products" ng-click="reviewCtrl.editEntry($index)" ng-submit="reviewForm.$valid && reviewCtrl.doneEditingEntry($index)" novalidate>
 			<fieldset>
 				<div class="name">
 					{{product.name}}

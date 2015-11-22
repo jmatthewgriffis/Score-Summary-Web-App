@@ -19,22 +19,28 @@
 		this.review = {};
 		this.addReview = function()
 		{
-			// this.review.createdOn = Date.now();
 			if (debug) { console.log(this.review); }
 			this.products.push(this.review);
 			this.review = {};
 		};
+		this.setActive = function(index)
+		{
+			this.active = index;
+		}
 		this.editEntry = function(index)
 		{
+			if (this.active === index) { return; } // Already editing
+			// if (this.active !== -1) { return; }
 			this.review = this.products[index];
-			this.active = index;
+			this.setActive(index);
 			if (debug) { console.log("editing entry: " + this.active); }
 		};
 		this.doneEditingEntry = function(index)
 		{
+			//this.products[index] = this.review;
 			if (debug) { console.log('edited entry: ' + index); }
 			this.review = {};
-			this.editEntry(-1);
+			this.setActive(-1);
 		}
 		this.checkActive = function(index)
 		{
