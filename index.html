@@ -9,7 +9,7 @@
 	<script type="text/javascript" src="js/products.js"></script>
 
 </head>
-<body ng-controller="StoreController as store">
+<body ng-controller="StoreController as store" ng-click>
 	<!-- FIND ME YO -->
 	<script type="text/javascript">
 	// Thanks to http://html5tutorial.net/tutorials/working-with-html5-localstorage.html
@@ -91,11 +91,11 @@
 
 	<div class="studentsContainer" ng-controller="ReviewController as reviewCtrl">
 		<!-- Current students -->
-		<form class="currentStudent" name="reviewForm" ng-repeat="product in reviewCtrl.products" ng-click="reviewCtrl.setActive($index)" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" novalidate>
+		<form class="currentStudent" name="reviewForm" ng-repeat="product in reviewCtrl.products" ng-click="reviewCtrl.editEntry($index)" ng-submit="reviewCtrl.doneEditingEntry($index)" novalidate>
 			<fieldset>
 				<div class="name">
 					{{product.name}}
-					<input type="text" placeholder="Name..." title="Review" ng-model="reviewCtrl.review.name" ng-show="reviewCtrl.checkActive($index)" required />
+					<input type="text" placeholder="Name..." value={{product.name}} title="Review" ng-model="reviewCtrl.review.name" ng-show="reviewCtrl.checkActive($index)" required />
 				</div>
 
 				<div class="score">
@@ -103,7 +103,7 @@
 					<input type="number" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" ng-show="reviewCtrl.checkActive($index)" required />
 				</div>
 				
-				<!-- <input type="submit" value="Add Student" /> -->
+				<input class="hidden" type="submit" value="Submit" />
 			</fieldset>
 		</form>
 		<!--  New student -->

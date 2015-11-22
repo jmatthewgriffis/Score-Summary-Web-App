@@ -10,14 +10,20 @@
 
 /* MINE */
 
+.hidden
+{
+	display: none;
+}
+
 .currentStudent div
 {
 	position: relative;
 	display: inline-block;
+	vertical-align: top;
 	border: 1px solid black;
 }
 
-.currentStudent input
+.currentStudent div input
 {
 	position: absolute;
 	top: 0;

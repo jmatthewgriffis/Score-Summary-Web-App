@@ -15,7 +15,7 @@
 	app.controller('ReviewController', function()
 	{
 		this.products = students;
-		this.editingStudent = -1;
+		this.active = -1;
 		this.review = {};
 		this.addReview = function()
 		{
@@ -24,14 +24,21 @@
 			this.products.push(this.review);
 			this.review = {};
 		};
-		this.setActive = function(index)
+		this.editEntry = function(index)
 		{
-			this.editingStudent = index;
-			if (!debug) { console.log("editing row: " + this.editingStudent); }
+			this.review = this.products[index];
+			this.active = index;
+			if (debug) { console.log("editing entry: " + this.active); }
 		};
+		this.doneEditingEntry = function(index)
+		{
+			if (debug) { console.log('edited entry: ' + index); }
+			this.review = {};
+			this.editEntry(-1);
+		}
 		this.checkActive = function(index)
 		{
-			return (this.editingStudent === index);
+			return (this.active === index);
 		};
 	});
 
@@ -39,18 +46,15 @@
 	[
 		{
 			name: 'Mary',
-			score: 75,
-			isActive: false
+			score: 75
 		},
 		{
 			name: 'Tyler',
-			score: 32,
-			isActive: false
+			score: 32
 		},
 		{
 			name: 'Moore',
-			score: 100,
-			isActive: false
+			score: 100
 		}
 	];
 })();
