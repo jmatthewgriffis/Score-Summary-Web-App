@@ -53,6 +53,10 @@
 			this.review = {};
 			this.setActive(-1);
 		};
+		this.delete = function(index)
+		{
+			this.products.splice(index, 1);
+		}
 		this.stopProp = function()
 		{
 			event.stopPropagation();
