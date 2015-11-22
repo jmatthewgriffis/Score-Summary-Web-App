@@ -31,31 +31,32 @@
 			this.products.push(this.review);
 			this.review = {};
 		};
-		this.startEditing = function(index)
+		this.startEditing = function(sortIndex, arrayIndex)
 		{
+			if (debug) { console.log("clicked entry: sort index = " + sortIndex + "; product.index = " + arrayIndex); }
 			event.stopPropagation();
 			this.stopEditing();
 			var tmp = event.srcElement.firstElementChild;
 			if (debug) { console.log(tmp); }
 			$(tmp).removeClass('hidden').addClass('activeField').focus();
 
-			if (this.active === index) { return; } // Already editing
+			if (this.active === sortIndex) { return; } // Already editing
 
-			this.review = this.products[index];
-			this.setActive(index);
-			if (debug) { console.log("editing entry: " + this.active); }
+			this.review = this.products[arrayIndex];
+			this.setActive(sortIndex);
+			if (debug) { console.log("editing entry: sort index = " + this.active + "; product.index = " + arrayIndex); }
 		};
-		this.stopEditing = function(index)
+		this.stopEditing = function(sortIndex, arrayIndex)
 		{
+			if (!debug && arrayIndex !== undefined) { console.log('edited entry: sort index = ' + sortIndex  + "; product.index = " + arrayIndex); }
 			$('.activeField').removeClass('activeField').addClass('hidden');
-			//this.products[index] = this.review;
-			if (debug && index !== undefined) { console.log('edited entry: ' + index); }
 			this.review = {};
 			this.setActive(-1);
 		};
 		this.delete = function(index)
 		{
 			this.products.splice(index, 1);
+			if (debug) { console.log('deleted entry: ' + index); }
 		}
 		this.stopProp = function()
 		{
@@ -67,15 +68,18 @@
 	[
 		{
 			name: 'Mary',
-			score: 75
+			score: 75,
+			index: 0
 		},
 		{
 			name: 'Tyler',
-			score: 32
+			score: 32,
+			index: 1
 		},
 		{
 			name: 'Moore',
-			score: 100
+			score: 100,
+			index: 2
 		}
 	];
 })();
