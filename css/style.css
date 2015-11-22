@@ -23,7 +23,7 @@
 
 .highlight
 {
-	background-color: green;
+	/*background-color: green;*/
 }
 
 .studentsContainer
@@ -37,6 +37,7 @@
 	position: relative;
 	display: inline-block;
 	vertical-align: top;
+	background-color: white;
 	border: 1px solid black;
 }
 
