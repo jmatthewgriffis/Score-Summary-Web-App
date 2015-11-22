@@ -31,19 +31,15 @@
 			this.products.push(this.review);
 			this.review = {};
 		};
-		this.startEditing = function(index, event)
+		this.startEditing = function(index)
 		{
+			event.stopPropagation();
 			this.stopEditing();
 			var tmp = event.srcElement.firstElementChild;
 			if (debug) { console.log(tmp); }
 			$(tmp).removeClass('hidden').addClass('activeField').focus();
 
 			if (this.active === index) { return; } // Already editing
-			// if (this.active !== -1) { return; }
-			// event.srcElement.firstElementChild.focus();
-			// console.log(document.getElementById("myTest"));
-			// document.getElementById("myTest").focus();
-			// $('event.srcElement.firstElementChild').focus();
 
 			this.review = this.products[index];
 			this.setActive(index);
@@ -56,6 +52,10 @@
 			if (debug && index !== undefined) { console.log('edited entry: ' + index); }
 			this.review = {};
 			this.setActive(-1);
+		};
+		this.stopProp = function()
+		{
+			event.stopPropagation();
 		}
 	});
 

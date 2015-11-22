@@ -10,7 +10,7 @@
 	<script type="text/javascript" src="js/products.js"></script>
 
 </head>
-<body ng-controller="StoreController as store" ng-click>
+<body ng-controller="StoreController as store">
 	<!-- FIND ME YO -->
 	<script type="text/javascript">
 	// Thanks to http://html5tutorial.net/tutorials/working-with-html5-localstorage.html
@@ -90,16 +90,16 @@
 		}
 	</script>
 
-	<div class="studentsContainer" ng-controller="ReviewController as reviewCtrl">
+	<div class="studentsContainer" ng-controller="ReviewController as reviewCtrl" ng-click="reviewCtrl.stopEditing()">
 		<!-- Current students -->
 		<form name="reviewForm" class="currentStudent" ng-class="{'highlight' : reviewCtrl.checkActive($index)}" ng-repeat="product in reviewCtrl.products" ng-submit="reviewForm.$valid && reviewCtrl.stopEditing($index)" novalidate>
 			<fieldset>
-				<div class="name" ng-click="reviewCtrl.startEditing($index, $event)">
+				<div class="name" ng-click="reviewCtrl.startEditing($index)">
 					{{product.name}}
 					<input class="hidden" type="text" placeholder="Name..." value={{product.name}} title="Review" ng-model="reviewCtrl.review.name" required />
 				</div>
 
-				<div class="score" ng-click="reviewCtrl.startEditing($index, $event)">
+				<div class="score" ng-click="reviewCtrl.startEditing($index)">
 					{{product.score}}
 					<input class="hidden" type="number" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" required />
 				</div>
@@ -108,7 +108,7 @@
 			</fieldset>
 		</form>
 		<!--  New student -->
-		<form name="reviewForm" class="newStudent" ng-class="{'hidden2' : !reviewCtrl.checkActive(-1)}" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" novalidate>
+		<form name="reviewForm" class="newStudent" ng-class="{'hidden2' : !reviewCtrl.checkActive(-1)}" ng-click="reviewCtrl.stopProp()" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" novalidate>
 			<fieldset>
 				<input class="name" type="text" placeholder="Name" title="Review" ng-model="reviewCtrl.review.name" required />
 
