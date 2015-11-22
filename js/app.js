@@ -45,7 +45,8 @@
 
 			if (this.active === iSortIndex) { return; } // Already editing
 
-			this.review = this.products[iArrayIndex];
+			this.review = this.products[iArrayIndex]; // Here is the problem. for some reason after delting an element any ones below it in the array are it is passing in the next index (+1)
+			/* AHH I FIGURED IT OUT! ARRAYINDEX IS THE ASSIGNED VALUE AS A PROPERTY, IT'S NOT THE ACTUAL ARRAY INDEX, DUH! THAT IS CHANGING WHEN AN ELEMENT IS REMOVED */
 			this.setActive(iSortIndex);
 			if (!debug && bIsEditing) { console.log("ENTERED edit mode; started editing entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 		};
@@ -75,10 +76,19 @@
 			this.review = {};
 			this.setActive(-1);
 		};
-		this.delete = function(index)
+		this.delete = function(iSortIndex, iArrayIndex)
 		{
-			this.products.splice(index, 1);
-			if (debug) { console.log('deleted entry: ' + index); }
+			// $('.highlight').remove();
+			// this.stopEditing(iSortIndex, iArrayIndex);
+			console.log("before:");
+			console.log(this.products);
+			console.log("sort = " + iSortIndex + "; array = " + iArrayIndex);
+			console.log('about to delete: ');
+			console.log(this.products[iArrayIndex]);
+			this.products.splice(iArrayIndex, 1);
+			console.log("after:");
+			console.log(this.products);
+			// if (!debug) { console.log('deleted entry: [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
 		};
 		this.stopPropagation = function(bisSubmitting)
 		{

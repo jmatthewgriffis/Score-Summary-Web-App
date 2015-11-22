@@ -10,6 +10,11 @@
 
 /* MINE */
 
+.invalidForm
+{
+	border: 10px solid red;
+}
+
 .hidden
 {
 	display: none;
