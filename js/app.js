@@ -27,10 +27,16 @@
 		{
 			this.active = index;
 		}
-		this.editEntry = function(index)
+		this.editEntry = function(index, event)
 		{
 			if (this.active === index) { return; } // Already editing
 			// if (this.active !== -1) { return; }
+			// console.log(event.srcElement.firstElementChild);
+			// event.srcElement.firstElementChild.focus();
+			// console.log(document.getElementById("myTest"));
+			// document.getElementById("myTest").focus();
+			// $('event.srcElement.firstElementChild').focus();
+
 			this.review = this.products[index];
 			this.setActive(index);
 			if (debug) { console.log("editing entry: " + this.active); }

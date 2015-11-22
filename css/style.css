@@ -15,9 +15,21 @@
 	display: none;
 }
 
+.hidden2,
+.newStudent.hidden2
+{
+	visibility: hidden;
+}
+
 .highlight
 {
 	background-color: green;
+}
+
+.studentsContainer
+{
+	border: 1px solid black;
+	text-align: center;
 }
 
 .currentStudent div
@@ -39,12 +51,18 @@
 	border: none;
 }
 
+.newStudent
+{
+	visibility: visible;
+}
+
 .name,
 .score
 {
 	height: 3em;
 	margin: 10px;
 	padding: 10px;
+	text-align: left;
 }
 
 .name

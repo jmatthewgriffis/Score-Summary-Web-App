@@ -5,6 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
 	<script type="text/javascript" src="js/products.js"></script>
 
@@ -91,14 +92,14 @@
 
 	<div class="studentsContainer" ng-controller="ReviewController as reviewCtrl">
 		<!-- Current students -->
-		<form class="currentStudent" ng-class="{ 'highlight' : reviewCtrl.checkActive($index) }" name="reviewForm" ng-repeat="product in reviewCtrl.products" ng-click="reviewCtrl.editEntry($index)" ng-submit="reviewForm.$valid && reviewCtrl.doneEditingEntry($index)" novalidate>
+		<form name="reviewForm" class="currentStudent" ng-class="{'highlight' : reviewCtrl.checkActive($index)}" ng-repeat="product in reviewCtrl.products" ng-submit="reviewForm.$valid && reviewCtrl.doneEditingEntry($index)" novalidate>
 			<fieldset>
-				<div class="name">
+				<div class="name" ng-click="reviewCtrl.editEntry($index, $event)">
 					{{product.name}}
 					<input type="text" placeholder="Name..." value={{product.name}} title="Review" ng-model="reviewCtrl.review.name" ng-show="reviewCtrl.checkActive($index)" required />
 				</div>
 
-				<div class="score">
+				<div class="score" ng-click="reviewCtrl.editEntry($index, $event)">
 					{{product.score}}
 					<input type="number" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" ng-show="reviewCtrl.checkActive($index)" required />
 				</div>
@@ -107,13 +108,13 @@
 			</fieldset>
 		</form>
 		<!--  New student -->
-		<form class="newStudent" name="reviewForm" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" ng-show="reviewCtrl.checkActive(-1)" novalidate>
+		<form name="reviewForm" class="newStudent" ng-class="{'hidden2' : !reviewCtrl.checkActive(-1)}" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" novalidate>
 			<fieldset>
-				<input class="name" type="text" placeholder="Name..." title="Review" ng-model="reviewCtrl.review.name" required />
+				<input class="name" type="text" placeholder="Name" title="Review" ng-model="reviewCtrl.review.name" required />
 
-				<input class="score" type="number" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" required />
+				<input class="score" type="number" placeholder="Score" title="Email" ng-model="reviewCtrl.review.score" required />
 				
-				<input type="submit" value="Add Student" />
+				<input class="hidden" type="submit" value="Submit" />
 			</fieldset>
 		</form>
 	</div>
