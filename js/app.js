@@ -33,6 +33,8 @@
 		};
 		this.startEditing = function(iSortIndex, iArrayIndex, bIsEditing)
 		{
+			if (checkForIncompleteForm()) { return; }
+
 			if (!debug) { console.log("clicked entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 			event.stopPropagation();
 			this.stopEditing();
@@ -49,6 +51,8 @@
 		};
 		this.stopEditing = function(iSortIndex, iArrayIndex)
 		{
+			if (checkForIncompleteForm()) { return; }
+
 			if (!debug)
 			{
 				if (iArrayIndex === undefined) { console.log('stopped any previous editing; no changes submitted.'); }
@@ -81,6 +85,17 @@
 		}
 		this.test = function() {
 			console.log('TEST: container registered a click.');
+		}
+
+		function checkForIncompleteForm()
+		{
+			var foundIncompleteForm = false;
+			if ($('.invalidForm').length > 0)
+			{
+				foundIncompleteForm = true;
+				if (!debug) { console.log('cannot leave form field empty; action cancelled.'); }
+			}
+			return foundIncompleteForm;
 		}
 	});
 
