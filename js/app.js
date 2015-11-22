@@ -20,7 +20,7 @@
 		this.setActive = function(index)
 		{
 			this.active = index;
-		}
+		};
 		this.checkActive = function(index)
 		{
 			return (this.active === index);
@@ -35,7 +35,7 @@
 		{
 			if (checkForIncompleteForm()) { return; }
 
-			if (!debug) { console.log("clicked entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
+			if (!debug) { console.log("\nclicked entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 			event.stopPropagation();
 			this.stopEditing();
 
@@ -55,7 +55,19 @@
 
 			if (!debug)
 			{
-				if (iArrayIndex === undefined) { console.log('stopped any previous editing; no changes submitted.'); }
+				// Clicked away rather than pressing ENTER; index details are not available.
+				if (iArrayIndex === undefined)
+				{
+					// Submitted.
+					if (checkForCompleteForm()) { console.log('EXITED edit mode (via click-away); successfully edited entry.'); }
+					// Did not submit.
+					else
+					{
+						if (debug) { console.log('clicked container; no changes submitted.'); }
+						return;
+					}
+				}
+				// Pressed ENTER. Index details are available.
 				else { console.log('EXITED edit mode; successfully edited entry [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
 			}
 			
@@ -67,7 +79,7 @@
 		{
 			this.products.splice(index, 1);
 			if (debug) { console.log('deleted entry: ' + index); }
-		}
+		};
 		this.stopPropagation = function(bisSubmitting)
 		{
 			event.stopPropagation();
@@ -79,13 +91,13 @@
 				}
 				else
 				{
-					console.log('event propagation stopped.');
+					console.log('\nevent propagation stopped.');
 				}
 			}
-		}
+		};
 		this.test = function() {
 			console.log('TEST: container registered a click.');
-		}
+		};
 
 		function checkForIncompleteForm()
 		{
@@ -96,7 +108,16 @@
 				if (!debug) { console.log('cannot leave form field empty; action cancelled.'); }
 			}
 			return foundIncompleteForm;
-		}
+		};
+		function checkForCompleteForm()
+		{
+			var foundCompleteForm = false;
+			if ($('.validForm').length > 0)
+			{
+				foundCompleteForm = true;
+			}
+			return foundCompleteForm;
+		};
 	});
 
 	var students =
