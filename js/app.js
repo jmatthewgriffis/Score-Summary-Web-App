@@ -31,24 +31,30 @@
 			this.products.push(this.review);
 			this.review = {};
 		};
-		this.startEditing = function(sortIndex, arrayIndex)
+		this.startEditing = function(iSortIndex, iArrayIndex, bIsEditing)
 		{
-			if (debug) { console.log("clicked entry: sort index = " + sortIndex + "; product.index = " + arrayIndex); }
+			if (!debug) { console.log("clicked entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 			event.stopPropagation();
 			this.stopEditing();
+
 			var tmp = event.srcElement.firstElementChild;
 			if (debug) { console.log(tmp); }
 			$(tmp).removeClass('hidden').addClass('activeField').focus();
 
-			if (this.active === sortIndex) { return; } // Already editing
+			if (this.active === iSortIndex) { return; } // Already editing
 
-			this.review = this.products[arrayIndex];
-			this.setActive(sortIndex);
-			if (debug) { console.log("editing entry: sort index = " + this.active + "; product.index = " + arrayIndex); }
+			this.review = this.products[iArrayIndex];
+			this.setActive(iSortIndex);
+			if (!debug && bIsEditing) { console.log("ENTERED edit mode; started editing entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 		};
-		this.stopEditing = function(sortIndex, arrayIndex)
+		this.stopEditing = function(iSortIndex, iArrayIndex)
 		{
-			if (!debug && arrayIndex !== undefined) { console.log('edited entry: sort index = ' + sortIndex  + "; product.index = " + arrayIndex); }
+			if (!debug)
+			{
+				if (iArrayIndex === undefined) { console.log('stopped any previous editing; no changes submitted.'); }
+				else { console.log('EXITED edit mode; successfully edited entry [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
+			}
+			
 			$('.activeField').removeClass('activeField').addClass('hidden');
 			this.review = {};
 			this.setActive(-1);
@@ -58,9 +64,23 @@
 			this.products.splice(index, 1);
 			if (debug) { console.log('deleted entry: ' + index); }
 		}
-		this.stopProp = function()
+		this.stopPropagation = function(bisSubmitting)
 		{
 			event.stopPropagation();
+			if (!debug)
+			{
+				if (bisSubmitting)
+				{
+					console.log('form submitted; event propagation stopped.');
+				}
+				else
+				{
+					console.log('event propagation stopped.');
+				}
+			}
+		}
+		this.test = function() {
+			console.log('TEST: container registered a click.');
 		}
 	});
 

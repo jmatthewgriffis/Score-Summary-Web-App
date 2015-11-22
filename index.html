@@ -90,27 +90,27 @@
 		}
 	</script>
 
-	<div class="studentsContainer" ng-controller="ReviewController as reviewCtrl" ng-click="">
+	<div class="studentsContainer" ng-controller="ReviewController as reviewCtrl" ng-click="reviewCtrl.test()">
 		<!-- Current students -->
 		<form name="reviewForm" class="currentStudent" ng-class="{'highlight' : reviewCtrl.checkActive($index)}" ng-repeat="product in reviewCtrl.products | orderBy: 'name'" ng-submit="reviewForm.$valid && reviewCtrl.stopEditing($index, product.index)" novalidate>
 			<fieldset>
-				<div class="name" ng-click="reviewCtrl.startEditing($index, product.index)">
+				<div class="name" ng-click="reviewCtrl.startEditing($index, product.index, true)">
 					{{product.name}}
 					<input class="hidden" type="text" placeholder="Name..." value={{product.name}} title="Review" ng-model="reviewCtrl.review.name" required />
 				</div>
 
-				<div class="score" ng-click="reviewCtrl.startEditing($index, product.index)">
+				<div class="score" ng-click="reviewCtrl.startEditing($index, product.index, true)">
 					{{product.score}}
 					<input class="hidden" type="number" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" required />
 				</div>
 				
-				<input class="hidden" type="submit" value="Submit" />
+				<input ng-click="reviewCtrl.stopPropagation(true)" class="hidden" type="submit" value="Submit" />
 
 				<div ng-show="reviewCtrl.checkActive($index)" ng-click="reviewCtrl.delete($index)">X</div>
 			</fieldset>
 		</form>
 		<!--  New student -->
-		<form name="reviewForm" class="newStudent" ng-class="{'hidden2' : !reviewCtrl.checkActive(-1)}" ng-click="reviewCtrl.stopProp()" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" novalidate>
+		<form name="reviewForm" class="newStudent" ng-class="{'hidden2' : !reviewCtrl.checkActive(-1)}" ng-click="reviewCtrl.stopPropagation()" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" novalidate>
 			<fieldset>
 				<input class="name" type="text" placeholder="Name" title="Review" ng-model="reviewCtrl.review.name" required />
 
