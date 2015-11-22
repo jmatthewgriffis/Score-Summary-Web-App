@@ -17,21 +17,29 @@
 		this.products = students;
 		this.active = -1;
 		this.review = {};
+		this.setActive = function(index)
+		{
+			this.active = index;
+		}
+		this.checkActive = function(index)
+		{
+			return (this.active === index);
+		};
 		this.addReview = function()
 		{
 			if (debug) { console.log(this.review); }
 			this.products.push(this.review);
 			this.review = {};
 		};
-		this.setActive = function(index)
+		this.startEditing = function(index, event)
 		{
-			this.active = index;
-		}
-		this.editEntry = function(index, event)
-		{
+			this.stopEditing();
+			var tmp = event.srcElement.firstElementChild;
+			if (debug) { console.log(tmp); }
+			$(tmp).removeClass('hidden').addClass('activeField').focus();
+
 			if (this.active === index) { return; } // Already editing
 			// if (this.active !== -1) { return; }
-			// console.log(event.srcElement.firstElementChild);
 			// event.srcElement.firstElementChild.focus();
 			// console.log(document.getElementById("myTest"));
 			// document.getElementById("myTest").focus();
@@ -41,17 +49,14 @@
 			this.setActive(index);
 			if (debug) { console.log("editing entry: " + this.active); }
 		};
-		this.doneEditingEntry = function(index)
+		this.stopEditing = function(index)
 		{
+			$('.activeField').removeClass('activeField').addClass('hidden');
 			//this.products[index] = this.review;
-			if (debug) { console.log('edited entry: ' + index); }
+			if (debug && index !== undefined) { console.log('edited entry: ' + index); }
 			this.review = {};
 			this.setActive(-1);
 		}
-		this.checkActive = function(index)
-		{
-			return (this.active === index);
-		};
 	});
 
 	var students =
