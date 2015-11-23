@@ -93,6 +93,22 @@
 				else { console.log('\nevent propagation stopped.'); }
 			}
 		};
+		this.isScoreFailing = function(score)
+		{
+			var failing = false;
+			if (score < 65) { failing = true; }
+			return failing;
+		}
+		this.getAverageScore = function()
+		{
+			var sum = 0;
+			for (var i = 0; i < this.students.length; i++)
+			{
+				sum += this.students[i].score;
+			}
+			var avg = sum / this.students.length;
+			return avg;
+		}
 
 		function checkForIncompleteForm()
 		{

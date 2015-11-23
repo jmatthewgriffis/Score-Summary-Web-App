@@ -103,7 +103,7 @@
 					<input class="hidden" type="text" maxlength="17" placeholder="Name" title="Name" ng-model="listCtrl.student.name" required />
 				</div>
 
-				<div class="score" ng-click="listCtrl.startEditing($index, listCtrl.students.indexOf(student), true)">
+				<div class="score" ng-class="{failing : listCtrl.isScoreFailing(student.score)}" ng-click="listCtrl.startEditing($index, listCtrl.students.indexOf(student), true)">
 					{{student.score}}
 					<input class="hidden" type="number" min="0" max="100" placeholder="Score" title="Score" ng-model="listCtrl.student.score" required />
 				</div>
@@ -124,6 +124,10 @@
 				<input class="submitBtn" ng-click="listCtrl.stopPropagation()" type="submit" value="Add Student" />
 			</fieldset>
 		</form>
+
+		<div class="summaryContainer">
+			<h1>Average score: {{listCtrl.getAverageScore() | number: '0'}}</h1>
+		</div>
 	</div>
 
 </body>
