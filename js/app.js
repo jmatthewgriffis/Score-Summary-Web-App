@@ -14,6 +14,8 @@
 
 	app.controller('ListController', function()
 	{
+		var debug = true;
+
 		this.students = students;
 		this.active = -1;
 		this.student = {};
@@ -28,7 +30,7 @@
 		};
 		this.addEntry = function()
 		{
-			if (debug) { console.log(this.student); }
+			if (debug) { console.log('ADDED entry [name = ' + this.student.name + ', score = ' + this.student.score + '].'); }
 			this.students.push(this.student);
 			this.student = {};
 		};
@@ -36,40 +38,42 @@
 		{
 			if (checkForIncompleteForm()) { return; }
 
-			if (!debug) { console.log("\nclicked entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
+			if (debug) { console.log("\nclicked entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
+
 			event.stopPropagation();
 			this.stopEditing();
 
-			var tmp = event.srcElement.firstElementChild;
-			if (debug) { console.log(tmp); }
-			$(tmp).removeClass('hidden').addClass('activeField').focus();
+			var selectedInput = event.srcElement.firstElementChild;
+			// if (debug) { console.log(selectedInput); }
+			$(selectedInput).removeClass('hidden').addClass('activeField').focus();
 
-			if (this.active === iSortIndex) { return; } // Already editing
+			if (this.active === iSortIndex) { return; } // Already editing find me yo
 
-			this.student = this.students[iArrayIndex]; // Here is the problem. for some reason after delting an element any ones below it in the array are it is passing in the next index (+1)
+			this.student = this.students[iArrayIndex]; // find me yo Here is the problem. for some reason after delting an element any ones below it in the array are it is passing in the next index (+1)
 			/* AHH I FIGURED IT OUT! ARRAYINDEX IS THE ASSIGNED VALUE AS A PROPERTY, IT'S NOT THE ACTUAL ARRAY INDEX, DUH! THAT IS CHANGING WHEN AN ELEMENT IS REMOVED */
 			this.setActive(iSortIndex);
-			if (!debug && bIsEditing) { console.log("ENTERED edit mode; started editing entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
+			if (debug && bIsEditing) { console.log("ENTERED edit mode; started editing entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 		};
 		this.stopEditing = function(iSortIndex, iArrayIndex)
 		{
 			if (checkForIncompleteForm()) { return; }
 
-			if (!debug)
+			if (debug)
 			{
 				// Clicked away rather than pressing ENTER; index details are not available.
 				if (iArrayIndex === undefined)
 				{
-					// Submitted.
-					if (checkForCompleteForm()) { console.log('EXITED edit mode (via click-away); successfully edited entry.'); }
-					// Did not submit.
-					else
+					if (checkForCompleteForm()) // Submitted.
 					{
-						if (debug) { console.log('clicked container; no changes submitted.'); }
+						console.log('EXITED edit mode (via click-away); successfully edited entry.');
+					}
+					else // Did not submit.
+					{
+						if (debug && ($('.activeField').length === 0)) { console.log('clicked container; no changes submitted.'); }
 						return;
 					}
 				}
-				// Pressed ENTER. Index details are available.
+				// Pressed ENTER; index details are available.
 				else { console.log('EXITED edit mode; successfully edited entry [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
 			}
 			
@@ -81,24 +85,18 @@
 		{
 			this.stopEditing(iSortIndex, iArrayIndex);
 			this.students.splice(iArrayIndex, 1);
-			if (!debug) { console.log('DELETED entry: [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
+			if (debug) { console.log('DELETED entry [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
 		};
 		this.stopPropagation = function(bisSubmitting)
 		{
 			event.stopPropagation();
-			if (!debug)
+			if (debug)
 			{
-				if (bisSubmitting)
-				{
-					console.log('form submitted; event propagation stopped.');
-				}
-				else
-				{
-					console.log('\nevent propagation stopped.');
-				}
+				if (bisSubmitting) { console.log('form submitted; event propagation stopped.'); }
+				else { console.log('\nevent propagation stopped.'); }
 			}
 		};
-		this.test = function() {
+		this.test = function() { // find me yo
 			console.log('TEST: registered a click.');
 		};
 
@@ -108,17 +106,14 @@
 			if ($('.invalidForm').length > 0)
 			{
 				foundIncompleteForm = true;
-				if (!debug) { console.log('cannot leave form field empty; action cancelled.'); }
+				if (debug) { console.log('cannot leave form field empty; action cancelled.'); }
 			}
 			return foundIncompleteForm;
 		};
 		function checkForCompleteForm()
 		{
 			var foundCompleteForm = false;
-			if ($('.validForm').length > 0)
-			{
-				foundCompleteForm = true;
-			}
+			if ($('.validForm').length > 0) { foundCompleteForm = true; }
 			return foundCompleteForm;
 		};
 	});
