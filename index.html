@@ -92,23 +92,23 @@
 
 	<div class="studentsContainer" ng-controller="ReviewController as reviewCtrl" ng-click="reviewCtrl.stopEditing()">
 		<!-- Current students -->
-		<form name="reviewForm" class="currentStudent" ng-class="{'highlight' : reviewCtrl.checkActive($index), 'invalidForm' : reviewCtrl.checkActive($index) && !reviewForm.$valid, 'validForm' : reviewCtrl.checkActive($index) && reviewForm.$valid}" ng-repeat="product in reviewCtrl.products" ng-submit="reviewForm.$valid && reviewCtrl.stopEditing($index, product.index)" novalidate>
+		<form name="reviewForm" class="currentStudent" ng-class="{'highlight' : reviewCtrl.checkActive($index), 'invalidForm' : reviewCtrl.checkActive($index) && !reviewForm.$valid, 'validForm' : reviewCtrl.checkActive($index) && reviewForm.$valid}" ng-repeat="product in reviewCtrl.products | orderBy: 'name'" ng-submit="reviewForm.$valid && reviewCtrl.stopEditing($index, reviewCtrl.products.indexOf(product))" novalidate>
 			<fieldset>
-				<div class="name" ng-click="reviewCtrl.startEditing($index, product.index, true)">
+				<div class="name" ng-click="reviewCtrl.startEditing($index, reviewCtrl.products.indexOf(product), true)">
 					{{product.name}}
 					<input class="hidden" type="text" placeholder="Name..." value={{product.name}} title="Review" ng-model="reviewCtrl.review.name" required />
 				</div>
 
-				<div class="score" ng-click="reviewCtrl.startEditing($index, product.index, true)">
+				<div class="score" ng-click="reviewCtrl.startEditing($index, reviewCtrl.products.indexOf(product), true)">
 					{{product.score}}
 					<input class="hidden" type="number" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" required />
 				</div>
 
-				<div ng-show="reviewCtrl.checkActive($index)" ng-click="reviewCtrl.delete($index, product.index)">X</div>
+				<div ng-show="reviewCtrl.checkActive($index)" ng-click="reviewCtrl.delete($index, reviewCtrl.products.indexOf(product))">X</div>
 				
 				<input ng-click="reviewCtrl.stopPropagation(reviewForm.$valid)" class="hidden" type="submit" value="Submit" />
 			</fieldset>
-			<div>reviewForm is {{reviewForm.$valid}}</div>
+			<!-- <div>reviewForm is {{reviewForm.$valid}}</div> -->
 		</form>
 		<!--  New student -->
 		<form name="reviewForm" class="newStudent" ng-class="{'hidden2' : !reviewCtrl.checkActive(-1)}" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" novalidate>

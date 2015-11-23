@@ -17,6 +17,7 @@
 		this.products = students;
 		this.active = -1;
 		this.review = {};
+
 		this.setActive = function(index)
 		{
 			this.active = index;
@@ -78,17 +79,9 @@
 		};
 		this.delete = function(iSortIndex, iArrayIndex)
 		{
-			// $('.highlight').remove();
-			// this.stopEditing(iSortIndex, iArrayIndex);
-			console.log("before:");
-			console.log(this.products);
-			console.log("sort = " + iSortIndex + "; array = " + iArrayIndex);
-			console.log('about to delete: ');
-			console.log(this.products[iArrayIndex]);
+			this.stopEditing(iSortIndex, iArrayIndex);
 			this.products.splice(iArrayIndex, 1);
-			console.log("after:");
-			console.log(this.products);
-			// if (!debug) { console.log('deleted entry: [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
+			if (!debug) { console.log('DELETED entry: [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
 		};
 		this.stopPropagation = function(bisSubmitting)
 		{
@@ -134,18 +127,15 @@
 	[
 		{
 			name: 'Mary',
-			score: 75,
-			index: 0
+			score: 75
 		},
 		{
 			name: 'Tyler',
-			score: 32,
-			index: 1
+			score: 32
 		},
 		{
 			name: 'Moore',
-			score: 100,
-			index: 2
+			score: 100
 		}
 	];
 })();
