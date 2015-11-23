@@ -1,0 +1,9 @@
+<form name="studentForm" class="newStudent" ng-class="{'hidden2' : !listCtrl.checkActive(-1)}" ng-submit="studentForm.$valid && listCtrl.addEntry()" novalidate>
+	<fieldset>
+		<input class="name" type="text" maxlength="17" placeholder="Name" title="Name" ng-model="listCtrl.student.name" ng-click="listCtrl.stopPropagation()" required />
+
+		<input class="score" type="number" min="0" max="100" placeholder="Score" title="Score" ng-model="listCtrl.student.score" ng-click="listCtrl.stopPropagation()" required />
+		
+		<input class="submitBtn" ng-click="listCtrl.stopPropagation()" type="submit" value="Add Student" />
+	</fieldset>
+</form>

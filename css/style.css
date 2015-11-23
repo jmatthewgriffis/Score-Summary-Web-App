@@ -46,7 +46,7 @@
 	background-color: yellow!important;
 }
 
-.studentsContainer
+.wrapper
 {
 	border: 1px solid black;
 	text-align: center;
@@ -58,7 +58,7 @@
 	position: relative;
 }
 
-.studentsContainer div
+.wrapper div
 {
 	position: relative;
 	display: inline-block;
@@ -67,12 +67,12 @@
 	border: 1px solid black;
 }
 
-div.columnLabels
+div.labels
 {
 	border: none;
 }
 
-.columnLabels div
+.labels div
 {
 	border-top: none;
 	border-left: none;
