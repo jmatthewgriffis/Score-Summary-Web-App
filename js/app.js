@@ -33,7 +33,11 @@
 				name: myName,
 				score: myScore
 			};
-			if (myName === undefined) { tmp = this.student; }
+			if (myName === undefined)
+			{
+				tmp = this.student;
+				$('.newStudent input.name').focus();
+			}
 
 			if (debug) { console.log('ADDED entry [name = ' + tmp.name + ', score = ' + tmp.score + '].'); }
 			this.students.push(tmp);
@@ -160,7 +164,7 @@
 			if (debug)
 			{
 				if (bisSubmitting) { console.log('form submitted; event propagation stopped.'); }
-				else { console.log('\nevent propagation stopped.'); }
+				else { console.log('event propagation stopped.'); }
 			}
 		};
 		this.isScoreFailing = function(score)
