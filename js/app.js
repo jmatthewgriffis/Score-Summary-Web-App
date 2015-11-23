@@ -106,8 +106,6 @@
 							localStorage.setItem(editedIndex, tmpJSON);
 							if (debug) { console.log('updated entry in localStorage.'); }
 						}
-
-						editedIndex = -1;
 					}
 				}
 				else // Did not submit.
@@ -133,6 +131,7 @@
 			$('.activeField').removeClass('activeField').addClass('hidden');
 			this.student = {};
 			this.setActive(-1);
+			editedIndex = -1;
 		};
 		this.deleteEntry = function(iArrayIndex, iSortIndex)
 		{
