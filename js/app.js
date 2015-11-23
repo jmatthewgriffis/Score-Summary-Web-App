@@ -4,11 +4,11 @@
 
 	app.controller('ListController', function()
 	{
-		var debug = false;
+		var debug = false; // Turn this on to log many helpful messages.
 
 		this.students = [];
-		this.active = -1;
 		this.student = {};
+		this.active = -1;
 		this.orderBy = '';
 		this.sortText = 'when added';
 
@@ -29,6 +29,7 @@
 			this.addEntry('Moore', 100, true);
 			console.log('finished adding initial student data.');
 		};
+
 		this.resumeExistingSession = function()
 		{
 			console.log("resumed existing session.");
@@ -45,6 +46,7 @@
 			}
 			if (localStorage.length > 1) { console.log('finished loading student data from localStorage.'); }
 		};
+
 		this.addEntry = function(myName, myScore, needsToBeStored)
 		{
 			// console.log('name = ' + myName + '; score = ' + myScore);
@@ -72,6 +74,7 @@
 			}
 			storageIndex++;
 		};
+
 		this.switchOrder = function()
 		{
 			if (checkForIncompleteForm()) { return; }
@@ -84,14 +87,17 @@
 			if (this.sortText === '') { this.sortText = 'when added'; }
 			if (debug) { console.log('now sorting by ' + this.sortText); }
 		};
+
 		this.setActive = function(index)
 		{
 			this.active = index;
 		};
+
 		this.checkActive = function(index)
 		{
 			return (this.active === index);
 		};
+
 		this.startEditing = function(iArrayIndex, iSortIndex, bIsEditing)
 		{
 			if (checkForIncompleteForm()) { return; }
@@ -110,6 +116,7 @@
 			this.setActive(iSortIndex);
 			if (debug && bIsEditing) { console.log("ENTERED edit mode; started editing entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 		};
+
 		this.stopEditing = function(iArrayIndex, iSortIndex, bIsDeleting)
 		{
 			if (checkForIncompleteForm()) { return; }
@@ -157,6 +164,7 @@
 			this.setActive(-1);
 			editedIndex = -1;
 		};
+
 		this.deleteEntry = function(iArrayIndex, iSortIndex)
 		{
 			var tmp1 = this.students[iArrayIndex];
@@ -178,6 +186,7 @@
 				}
 			}
 		};
+
 		this.stopPropagation = function(bisSubmitting)
 		{
 			event.stopPropagation();
@@ -187,12 +196,14 @@
 				else { console.log('event propagation stopped.'); }
 			}
 		};
+
 		this.isScoreFailing = function(score)
 		{
 			var failing = false;
 			if (score < 65) { failing = true; }
 			return failing;
 		};
+
 		this.calcMinMaxAvg = function()
 		{
 			var sum = 0;
@@ -222,6 +233,7 @@
 			var avg = sum / this.students.length;
 			return avg;
 		};
+
 		this.resetSession = function()
 		{
 			localStorage.clear();
@@ -238,6 +250,7 @@
 			}
 			return foundIncompleteForm;
 		};
+		
 		function checkForCompleteForm()
 		{
 			var foundCompleteForm = false;

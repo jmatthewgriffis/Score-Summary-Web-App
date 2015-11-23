@@ -9,6 +9,7 @@
 			templateUrl: 'directives/edit-current-students.html'
 		};
 	});
+
 	app.directive('addNewStudent', function()
 	{
 		return {
@@ -16,6 +17,7 @@
 			templateUrl: 'directives/add-new-student.html'
 		};
 	});
+
 	app.directive('resetButton', function()
 	{
 		return {
@@ -23,6 +25,7 @@
 			templateUrl: 'directives/reset-button.html'
 		};
 	});
+
 	app.directive('sortControls', function()
 	{
 		return {
@@ -30,6 +33,7 @@
 			templateUrl: 'directives/sort-controls.html'
 		};
 	});
+
 	app.directive('statistics', function()
 	{
 		return {
@@ -37,6 +41,7 @@
 			templateUrl: 'directives/statistics.html'
 		};
 	});
+	
 	app.directive('columnLabels', function()
 	{
 		return {
