@@ -14,7 +14,7 @@
 
 	app.controller('ListController', function()
 	{
-		var debug = true;
+		var debug = false;
 
 		this.students = [];
 		this.active = -1;
@@ -113,9 +113,24 @@
 		};
 		this.deleteEntry = function(iSortIndex, iArrayIndex)
 		{
+			var tmp1 = this.students[iArrayIndex];
+			var tmp2 = {};
+
 			this.stopEditing(iSortIndex, iArrayIndex);
 			this.students.splice(iArrayIndex, 1);
 			if (debug) { console.log('DELETED entry [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
+
+			// Remove from localStorage.
+			for (var i in localStorage)
+			{
+				tmp2 = JSON.parse(localStorage.getItem(i));
+				if ((tmp2.name === tmp1.name) && (tmp2.score === tmp1.score))
+				{
+					localStorage.removeItem(i);
+					if (debug) { console.log('removed entry from localStorage.'); }
+					break;
+				}
+			}
 		};
 		this.stopPropagation = function(bisSubmitting)
 		{
