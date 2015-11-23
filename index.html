@@ -126,7 +126,10 @@
 		</form>
 
 		<div class="summaryContainer">
-			<h1>Average score: {{listCtrl.getAverageScore() | number: '0'}}</h1>
+			<h1>Score Summary</h1>
+			<h2>Min: {{listCtrl.minScore}}</h2>
+			<h2>Max: {{listCtrl.maxScore}}</h2>
+			<h2>Avg: {{listCtrl.calcMinMaxAvg() | number: '0'}}</h2>
 		</div>
 	</div>
 

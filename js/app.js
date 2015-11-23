@@ -98,17 +98,36 @@
 			var failing = false;
 			if (score < 65) { failing = true; }
 			return failing;
-		}
-		this.getAverageScore = function()
+		};
+		this.calcMinMaxAvg = function()
 		{
 			var sum = 0;
+
+			// Initial values min and max.
+			this.minScore = 100;
+			this.maxScore = 0;
+
 			for (var i = 0; i < this.students.length; i++)
 			{
+				// Update min.
+				if (this.students[i].score < this.minScore)
+				{
+					this.minScore = this.students[i].score;
+				}
+
+				// Update max.
+				if (this.students[i].score > this.maxScore)
+				{
+					this.maxScore = this.students[i].score;
+				}
+
+				// Update sum.
 				sum += this.students[i].score;
 			}
+			// Get avg.
 			var avg = sum / this.students.length;
 			return avg;
-		}
+		};
 
 		function checkForIncompleteForm()
 		{
