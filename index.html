@@ -11,17 +11,25 @@
 <body>
 	<div class="wrapper" ng-controller="ListController as listCtrl" ng-click="listCtrl.stopEditing()">
 		
-		<reset-button></reset-button>
-		
-		<column-labels></column-labels>
-		
-		<edit-current-students></edit-current-students>
-		
-		<add-new-student></add-new-student>
+		<div class="myContainer">
 
-		<sort-controls></sort-controls>
+			<column-labels></column-labels>
 
-		<statistics></statistics>
+			<edit-current-students></edit-current-students>
+		
+			<add-new-student></add-new-student>
+
+		</div>
+
+		<div class="myContainer">
+
+			<reset-button></reset-button>
+
+			<statistics></statistics>
+
+			<sort-controls></sort-controls>
+
+		</div>
 
 	</div>
 </body>
