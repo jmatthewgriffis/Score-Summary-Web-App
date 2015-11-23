@@ -43,13 +43,25 @@
 	position: relative;
 }
 
-.currentStudent div
+.studentsContainer div
 {
 	position: relative;
 	display: inline-block;
 	vertical-align: top;
 	background-color: white;
 	border: 1px solid black;
+}
+
+div.columnLabels
+{
+	border: none;
+}
+
+.columnLabels div
+{
+	border-top: none;
+	border-left: none;
+	border-right: none;
 }
 
 .currentStudent div input
