@@ -10,6 +10,16 @@
 
 /* MINE */
 
+.bold
+{
+	font-weight: bold;
+}
+
+.italic
+{
+	font-style: italic;
+}
+
 .invalidForm
 {
 	background-color: rgba(255, 0, 0, 0.3);

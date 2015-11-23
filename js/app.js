@@ -14,12 +14,35 @@
 
 	app.controller('ListController', function()
 	{
-		var debug = false;
+		var debug = true;
 
 		this.students = students;
 		this.active = -1;
 		this.student = {};
+		this.orderBy = '';
+		this.sortText = 'when added';
 
+		this.switchOrder = function()
+		{
+			if (checkForIncompleteForm()) { return; }
+			
+			if (debug) { console.log('was sorting by ' + this.sortText); }
+			if (this.orderBy === '')
+			{
+				this.orderBy = 'name';
+			}
+			else if (this.orderBy === 'name')
+			{
+				this.orderBy = 'score';
+			}
+			else
+			{
+				this.orderBy = '';
+			}
+			this.sortText = this.orderBy;
+			if (this.sortText === '') { this.sortText = 'when added'; }
+			if (debug) { console.log('now sorting by ' + this.sortText); }
+		};
 		this.setActive = function(index)
 		{
 			this.active = index;
@@ -66,7 +89,7 @@
 					}
 					else // Did not submit.
 					{
-						if (debug) { console.log('clicked container; no changes submitted.'); }
+						if (debug) { console.log('clicked container; no entries changed.'); }
 						return;
 					}
 				}

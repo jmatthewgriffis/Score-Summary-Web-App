@@ -96,7 +96,7 @@
 			<div class="score">Pts / 100</div>
 		</div>
 		<!-- Current students -->
-		<form name="studentForm" class="currentStudent" ng-class="{'highlight' : listCtrl.checkActive($index), 'invalidForm' : listCtrl.checkActive($index) && !studentForm.$valid, 'validForm' : listCtrl.checkActive($index) && studentForm.$valid}" ng-repeat="student in listCtrl.students | orderBy: 'name'" ng-submit="studentForm.$valid && listCtrl.stopEditing($index, listCtrl.students.indexOf(student))" novalidate>
+		<form name="studentForm" class="currentStudent" ng-class="{'highlight' : listCtrl.checkActive($index), 'invalidForm' : listCtrl.checkActive($index) && !studentForm.$valid, 'validForm' : listCtrl.checkActive($index) && studentForm.$valid}" ng-repeat="student in listCtrl.students | orderBy: listCtrl.orderBy" ng-submit="studentForm.$valid && listCtrl.stopEditing($index, listCtrl.students.indexOf(student))" novalidate>
 			<fieldset>
 				<div class="name" ng-click="listCtrl.startEditing($index, listCtrl.students.indexOf(student), true)">
 					{{student.name}}
@@ -124,6 +124,10 @@
 				<input class="submitBtn" ng-click="listCtrl.stopPropagation()" type="submit" value="Add Student" />
 			</fieldset>
 		</form>
+
+		<div>Sorted by: {{listCtrl.sortText}}</div>
+		<input class="" ng-click="listCtrl.switchOrder()" type="button" value="Change" />
+		<div class="warning" ng-hide="listCtrl.orderBy === ''"><span class="bold">PLEASE NOTE:</span> Sorting is fun! But bugs are not. When sorting by anything other than "when added," editing an existing entry <span class="italic">such that its position in the order changes</span> can cause wonky behavior, e.g. a disruptive loss of form focus. Clear the sorting field out completely and it might even break the app, by rendering the wrong line invalid (based on the old order) and making it impossible to fix. I didn't have time to fix this bug. Sort by name or score at your own risk! Or stick with "when added" for the most stable experience. -Matt</div>
 
 		<div class="summaryContainer">
 			<h1>Score Summary</h1>
