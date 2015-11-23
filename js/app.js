@@ -15,6 +15,36 @@
 		var editedIndex = -1;
 		var storageIndex = 0;
 
+		this.startNewSession = function()
+		{
+			// Initial clean.
+			localStorage.clear();
+			console.log("started new session; cleared localStorage.");
+			localStorage.setItem('storageWasCleared', JSON.stringify('true'));
+
+			console.log('adding initial student data...');
+			// Set initial students.
+			this.addEntry('Mary', 75, true);
+			this.addEntry('Tyler', 32, true);
+			this.addEntry('Moore', 100, true);
+			console.log('finished adding initial student data.');
+		};
+		this.resumeExistingSession = function()
+		{
+			console.log("resumed existing session.");
+
+			if (localStorage.length > 1) { console.log('loading student data from localStorage...'); }
+			for (var i in localStorage)
+			{
+				if (localStorage.getItem(i) !== localStorage.getItem('storageWasCleared'))
+				{
+					var JSONparsed = JSON.parse(localStorage.getItem(i));
+					// if (debug) { console.log(JSONparsed); }
+					this.addEntry(JSONparsed.name, JSONparsed.score);
+				}
+			}
+			if (localStorage.length > 1) { console.log('finished loading student data from localStorage.'); }
+		};
 		this.addEntry = function(myName, myScore, needsToBeStored)
 		{
 			// console.log('name = ' + myName + '; score = ' + myScore);
@@ -215,117 +245,13 @@
 			return foundCompleteForm;
 		};
 
+		// Boot-up check of localStorage.
+		if (localStorage.getItem('storageWasCleared') === null) { this.startNewSession(); }
+		else { this.resumeExistingSession(); }
+
 		// Thanks to http://html5tutorial.net/tutorials/working-with-html5-localstorage.html
 		// Also to http://samcroft.co.uk/2013/using-localstorage-to-store-json/
 		// Also to http://stackoverflow.com/questions/3138564/looping-through-localstorage-in-html5-and-javascript
-
-		// Local storage madness
-		var myStudents = [
-			{name: 'mary', score: 75},
-			{name: 'joe', score: 32}
-		];
-		//var mary = {mary: 75};
-		//var joe = {joe: 32};
-		var studentsJSON = JSON.stringify(myStudents);
-
-		/*var test1 = "yay";
-		var test1J = JSON.stringify(test1);
-		var test2 = "boo";
-		var test2J = JSON.stringify(test2);
-		var test3 = "uh";
-		var test3J = JSON.stringify(test3);
-		localStorage.setItem('test1', test1J);
-		localStorage.setItem('test2', test2J);
-		localStorage.setItem('test3', test3J);
-		for (var i in localStorage)
-		{
-			console.log(localStorage.getItem(i));
-		}
-		test2 = "booya";
-		var test2J = JSON.stringify(test2);
-		localStorage.setItem('test2', test2J);
-		for (var i in localStorage)
-		{
-			console.log(localStorage.getItem(i));
-		}
-
-		localStorage.clear();*/
-		/*if (typeof(localStorage) == 'undefined' )
-		{
-			alert('Your browser does not support HTML5 localStorage. Try upgrading.');
-		}
-		else
-		{
-			if (localStorage.getItem('students') === null)
-			{
-				try
-				{
-					localStorage.setItem('students', studentsJSON); //saves to the database, “key”, “value”
-					if (debug) { console.log('students set!'); }
-				}
-				catch (e)
-				{
-					if (e == QUOTA_EXCEEDED_ERR)
-					{
-						alert('Quota exceeded!'); //data wasn’t successfully saved due to quota exceed so throw an error
-					}
-				}
-			}
-			else
-			{
-				if (debug) { console.log('students array already exists!'); }
-			}
-			// if (debug) { document.write(localStorage.getItem('students')); } //Hello World!
-			var studentsJSONparsed = JSON.parse(localStorage.getItem('students'));
-			if (debug) { console.log(studentsJSONparsed); }
-			//console.log("mary's score = " + studentsJSONparsed.mary);
-			studentsJSONparsed.forEach(function(key, value)
-			{
-			    if (debug) { console.log(key + ' = ' + value); }
-			});
-			for (var i = 0; i < studentsJSONparsed.length; i++)
-			{
-				console.log(studentsJSONparsed[i].name);
-			}
-			console.log(localStorage.length);
-			for (var i in localStorage)
-			{
-				console.log(localStorage.getItem(i));
-			}
-			// localStorage.removeItem('students'); //deletes the matching item from the database
-			localStorage.clear();
-		}*/
-
-		// Boot-up check of localStorage.
-		if (localStorage.getItem('storageWasCleared') === null)
-		{
-			// Initial clean.
-			localStorage.clear();
-			console.log("started new session; cleared localStorage.");
-			localStorage.setItem('storageWasCleared', JSON.stringify('true'));
-
-			console.log('adding initial student data...');
-			// Set initial students.
-			this.addEntry('Mary', 75, true);
-			this.addEntry('Tyler', 32, true);
-			this.addEntry('Moore', 100, true);
-			console.log('finished adding initial student data.');
-		}
-		else
-		{
-			console.log("resumed existing session.");
-
-			if (localStorage.length > 1) { console.log('loading student data from localStorage...'); }
-			for (var i in localStorage)
-			{
-				if (localStorage.getItem(i) !== localStorage.getItem('storageWasCleared'))
-				{
-					var JSONparsed = JSON.parse(localStorage.getItem(i));
-					// if (debug) { console.log(JSONparsed); }
-					this.addEntry(JSONparsed.name, JSONparsed.score);
-				}
-			}
-			if (localStorage.length > 1) { console.log('finished loading student data from localStorage.'); }
-		}
+		// Also to you, for reading this.
 	});
 })();
