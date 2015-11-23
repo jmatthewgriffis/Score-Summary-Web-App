@@ -14,14 +14,39 @@
 
 	app.controller('ListController', function()
 	{
-		var debug = true;
+		var debug = false;
 
-		this.students = students;
+		this.students = [];
 		this.active = -1;
 		this.student = {};
 		this.orderBy = '';
 		this.sortText = 'when added';
 
+		var storageIndex = 0;
+
+		this.addEntry = function(myName, myScore, needsToBeStored)
+		{
+			// console.log('name = ' + myName + '; score = ' + myScore);
+			var tmp =
+			{
+				name: myName,
+				score: myScore
+			};
+			if (myName === undefined) { tmp = this.student; }
+
+			if (debug) { console.log('ADDED entry [name = ' + tmp.name + ', score = ' + tmp.score + '].'); }
+			this.students.push(tmp);
+			this.student = {};
+
+			// Write into localStorage.
+			if (myName === undefined || needsToBeStored)
+			{
+				var tmpJSON = JSON.stringify(tmp);
+				localStorage.setItem(storageIndex, tmpJSON);
+				console.log('wrote to memory!');
+			}
+			storageIndex++;
+		};
 		this.switchOrder = function()
 		{
 			if (checkForIncompleteForm()) { return; }
@@ -41,12 +66,6 @@
 		this.checkActive = function(index)
 		{
 			return (this.active === index);
-		};
-		this.addEntry = function()
-		{
-			if (debug) { console.log('ADDED entry [name = ' + this.student.name + ', score = ' + this.student.score + '].'); }
-			this.students.push(this.student);
-			this.student = {};
 		};
 		this.startEditing = function(iSortIndex, iArrayIndex, bIsEditing)
 		{
@@ -159,21 +178,116 @@
 			if ($('.validForm').length > 0) { foundCompleteForm = true; }
 			return foundCompleteForm;
 		};
-	});
 
-	var students =
-	[
+
+
+		// Local storage madness
+		var myStudents = [
+			{name: 'mary', score: 75},
+			{name: 'joe', score: 32}
+		];
+		//var mary = {mary: 75};
+		//var joe = {joe: 32};
+		var studentsJSON = JSON.stringify(myStudents);
+
+		/*var test1 = "yay";
+		var test1J = JSON.stringify(test1);
+		var test2 = "boo";
+		var test2J = JSON.stringify(test2);
+		var test3 = "uh";
+		var test3J = JSON.stringify(test3);
+		localStorage.setItem('test1', test1J);
+		localStorage.setItem('test2', test2J);
+		localStorage.setItem('test3', test3J);
+		for (var i in localStorage)
 		{
-			name: 'Mary',
-			score: 75
-		},
-		{
-			name: 'Tyler',
-			score: 32
-		},
-		{
-			name: 'Moore',
-			score: 100
+			console.log(localStorage.getItem(i));
 		}
-	];
+		test2 = "booya";
+		var test2J = JSON.stringify(test2);
+		localStorage.setItem('test2', test2J);
+		for (var i in localStorage)
+		{
+			console.log(localStorage.getItem(i));
+		}
+
+		localStorage.clear();*/
+		/*if (typeof(localStorage) == 'undefined' )
+		{
+			alert('Your browser does not support HTML5 localStorage. Try upgrading.');
+		}
+		else
+		{
+			if (localStorage.getItem('students') === null)
+			{
+				try
+				{
+					localStorage.setItem('students', studentsJSON); //saves to the database, “key”, “value”
+					if (debug) { console.log('students set!'); }
+				}
+				catch (e)
+				{
+					if (e == QUOTA_EXCEEDED_ERR)
+					{
+						alert('Quota exceeded!'); //data wasn’t successfully saved due to quota exceed so throw an error
+					}
+				}
+			}
+			else
+			{
+				if (debug) { console.log('students array already exists!'); }
+			}
+			// if (debug) { document.write(localStorage.getItem('students')); } //Hello World!
+			var studentsJSONparsed = JSON.parse(localStorage.getItem('students'));
+			if (debug) { console.log(studentsJSONparsed); }
+			//console.log("mary's score = " + studentsJSONparsed.mary);
+			studentsJSONparsed.forEach(function(key, value)
+			{
+			    if (debug) { console.log(key + ' = ' + value); }
+			});
+			for (var i = 0; i < studentsJSONparsed.length; i++)
+			{
+				console.log(studentsJSONparsed[i].name);
+			}
+			console.log(localStorage.length);
+			for (var i in localStorage)
+			{
+				console.log(localStorage.getItem(i));
+			}
+			// localStorage.removeItem('students'); //deletes the matching item from the database
+			localStorage.clear();
+		}*/
+
+		// Boot-up check of localStorage.
+		if (localStorage.getItem('storageWasCleared') === null)
+		{
+			// Initial clean.
+			localStorage.clear();
+			if (!debug) { console.log("starting session; cleared localStorage."); }
+			localStorage.setItem('storageWasCleared', JSON.stringify('true'));
+
+			if (!debug) { console.log('adding initial student data.'); }
+			// Set initial students.
+			this.addEntry('Mary', 75, true);
+			this.addEntry('Tyler', 32, true);
+			this.addEntry('Moore', 100, true);
+		}
+		else
+		{
+			if (!debug) { console.log("resuming session."); }
+
+			if (!debug && (localStorage.length > 1)) { console.log('loading student data from localStorage.'); }
+			for (var i in localStorage)
+			{
+				if (localStorage.getItem(i) !== localStorage.getItem('storageWasCleared'))
+				{
+					var JSONparsed = JSON.parse(localStorage.getItem(i));
+					// if (!debug) { console.log(JSONparsed); }
+					this.addEntry(JSONparsed.name, JSONparsed.score);
+				}
+			}
+		}
+
+		// localStorage.clear(); // find me yo
+	});
 })();

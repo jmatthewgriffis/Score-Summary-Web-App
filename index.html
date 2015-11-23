@@ -44,50 +44,6 @@
 			document.write(localStorage.getItem("name")); //Hello World!
 			//localStorage.removeItem("name"); //deletes the matching item from the database
 		}*/
-		var debug = false;
-		var students = [
-			{mary: 75},
-			{joe: 32}
-		];
-		var mary = {mary: 75};
-		var joe = {joe: 32};
-		var studentsJSON = JSON.stringify(students);
-		if (typeof(localStorage) == 'undefined' )
-		{
-			alert('Your browser does not support HTML5 localStorage. Try upgrading.');
-		}
-		else
-		{
-			if (localStorage.getItem('students') === null)
-			{
-				try
-				{
-					localStorage.setItem('students', studentsJSON); //saves to the database, “key”, “value”
-					if (debug) { console.log('students set!'); }
-				}
-				catch (e)
-				{
-					if (e == QUOTA_EXCEEDED_ERR)
-					{
-						alert('Quota exceeded!'); //data wasn’t successfully saved due to quota exceed so throw an error
-					}
-				}
-			}
-			else
-			{
-				if (debug) { console.log('students array already exists!'); }
-			}
-			if (debug) { document.write(localStorage.getItem('students')); } //Hello World!
-			//localStorage.removeItem('students'); //deletes the matching item from the database
-			var studentsJSONparsed = JSON.parse(localStorage.getItem('students'));
-			if (debug) { console.log(studentsJSONparsed); }
-			//console.log("mary's score = " + studentsJSONparsed.mary);
-			studentsJSONparsed.forEach(function(key, value)
-			{
-			    if (debug) { console.log(key + ' = ' + value); }
-			});
-
-		}
 	</script>
 
 	<div class="studentsContainer" ng-controller="ListController as listCtrl" ng-click="listCtrl.stopEditing()">
