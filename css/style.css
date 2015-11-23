@@ -12,7 +12,7 @@
 
 .invalidForm
 {
-	border: 1px solid red;
+	background-color: rgba(255, 0, 0, 0.3);
 }
 
 .hidden
@@ -28,7 +28,7 @@
 
 .highlight
 {
-	background-color: green;
+	/*background-color: green;*/
 }
 
 .studentsContainer
