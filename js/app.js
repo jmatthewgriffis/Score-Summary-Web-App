@@ -1,16 +1,6 @@
 (function()
 {
-	var app = angular.module('gemStore', ['store-directives']);
-
-	app.controller('StoreController', ['$http', function($http)
-	{
-		/*var store = this;
-		store.products = [];	
-		$http.get('json/products.json').success(function(data)
-		{
-			store.products = data;
-		});*/
-	}]);
+	var app = angular.module('testScoreList', []);
 
 	app.controller('ListController', function()
 	{
@@ -225,7 +215,9 @@
 			return foundCompleteForm;
 		};
 
-
+		// Thanks to http://html5tutorial.net/tutorials/working-with-html5-localstorage.html
+		// Also to http://samcroft.co.uk/2013/using-localstorage-to-store-json/
+		// Also to http://stackoverflow.com/questions/3138564/looping-through-localstorage-in-html5-and-javascript
 
 		// Local storage madness
 		var myStudents = [

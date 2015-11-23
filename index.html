@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="gemStore">
+<html ng-app="testScoreList">
 <head>
 
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
@@ -7,44 +7,9 @@
 	<script type="text/javascript" src="js/angular.min.js"></script>
 	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
-	<script type="text/javascript" src="js/products.js"></script>
 
 </head>
-<body ng-controller="StoreController as store">
-	<!-- FIND ME YO -->
-	<script type="text/javascript">
-	// Thanks to http://html5tutorial.net/tutorials/working-with-html5-localstorage.html
-	// Also to http://samcroft.co.uk/2013/using-localstorage-to-store-json/
-	// Also to http://stackoverflow.com/questions/3138564/looping-through-localstorage-in-html5-and-javascript
-		/*if (typeof(localStorage) == 'undefined' )
-		{
-			alert('Your browser does not support HTML5 localStorage. Try upgrading.');
-		}
-		else
-		{
-			if (localStorage.getItem("name") === null)
-			{
-				try
-				{
-					localStorage.setItem("name", "Hello World!"); //saves to the database, “key”, “value”
-					console.log('name set!');
-				}
-				catch (e)
-				{
-					if (e == QUOTA_EXCEEDED_ERR)
-					{
-						alert('Quota exceeded!'); //data wasn’t successfully saved due to quota exceed so throw an error
-					}
-				}
-			}
-			else
-			{
-				console.log('name already exists!');
-			}
-			document.write(localStorage.getItem("name")); //Hello World!
-			//localStorage.removeItem("name"); //deletes the matching item from the database
-		}*/
-	</script>
+<body>
 
 	<div class="studentsContainer" ng-controller="ListController as listCtrl" ng-click="listCtrl.stopEditing()">
 		<input class="" ng-click="listCtrl.resetSession()" type="button" value="Reset Session" />
@@ -69,7 +34,6 @@
 				
 				<input class="hidden" ng-click="listCtrl.stopPropagation(studentForm.$valid)" type="submit" value="Submit" />
 			</fieldset>
-			<!-- <div>studentForm is {{studentForm.$valid}}</div> -->
 		</form>
 		<!--  New student -->
 		<form name="studentForm" class="newStudent" ng-class="{'hidden2' : !listCtrl.checkActive(-1)}" ng-submit="studentForm.$valid && listCtrl.addEntry()" novalidate>
