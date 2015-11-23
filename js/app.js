@@ -14,7 +14,7 @@
 
 	app.controller('ListController', function()
 	{
-		var debug = false;
+		var debug = true;
 
 		this.students = [];
 		this.active = -1;
@@ -43,7 +43,7 @@
 			{
 				var tmpJSON = JSON.stringify(tmp);
 				localStorage.setItem(storageIndex, tmpJSON);
-				console.log('wrote to memory!');
+				if (debug) { console.log('added entry to localStorage.'); }
 			}
 			storageIndex++;
 		};
@@ -161,6 +161,11 @@
 			var avg = sum / this.students.length;
 			return avg;
 		};
+		this.resetSession = function()
+		{
+			localStorage.clear();
+			location.reload();
+		}
 
 		function checkForIncompleteForm()
 		{
@@ -263,31 +268,31 @@
 		{
 			// Initial clean.
 			localStorage.clear();
-			if (!debug) { console.log("starting session; cleared localStorage."); }
+			console.log("started new session; cleared localStorage.");
 			localStorage.setItem('storageWasCleared', JSON.stringify('true'));
 
-			if (!debug) { console.log('adding initial student data.'); }
+			console.log('adding initial student data...');
 			// Set initial students.
 			this.addEntry('Mary', 75, true);
 			this.addEntry('Tyler', 32, true);
 			this.addEntry('Moore', 100, true);
+			console.log('finished adding initial student data.');
 		}
 		else
 		{
-			if (!debug) { console.log("resuming session."); }
+			console.log("resumed existing session.");
 
-			if (!debug && (localStorage.length > 1)) { console.log('loading student data from localStorage.'); }
+			if (localStorage.length > 1) { console.log('loading student data from localStorage...'); }
 			for (var i in localStorage)
 			{
 				if (localStorage.getItem(i) !== localStorage.getItem('storageWasCleared'))
 				{
 					var JSONparsed = JSON.parse(localStorage.getItem(i));
-					// if (!debug) { console.log(JSONparsed); }
+					// if (debug) { console.log(JSONparsed); }
 					this.addEntry(JSONparsed.name, JSONparsed.score);
 				}
 			}
+			if (localStorage.length > 1) { console.log('finished loading student data from localStorage.'); }
 		}
-
-		// localStorage.clear(); // find me yo
 	});
 })();
