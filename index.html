@@ -53,19 +53,19 @@
 			<div class="score">Pts / 100</div>
 		</div>
 		<!-- Current students -->
-		<form name="studentForm" class="currentStudent" ng-class="{'highlight' : listCtrl.checkActive($index), 'invalidForm' : listCtrl.checkActive($index) && !studentForm.$valid, 'validForm' : listCtrl.checkActive($index) && studentForm.$valid}" ng-repeat="student in listCtrl.students | orderBy: listCtrl.orderBy" ng-submit="studentForm.$valid && listCtrl.stopEditing($index, listCtrl.students.indexOf(student))" novalidate>
+		<form name="studentForm" class="currentStudent" ng-class="{'highlight' : listCtrl.checkActive($index), 'invalidForm' : listCtrl.checkActive($index) && !studentForm.$valid, 'validForm' : listCtrl.checkActive($index) && studentForm.$valid}" ng-repeat="student in listCtrl.students | orderBy: listCtrl.orderBy" ng-submit="studentForm.$valid && listCtrl.stopEditing(listCtrl.students.indexOf(student), $index)" novalidate>
 			<fieldset>
-				<div class="name" ng-click="listCtrl.startEditing($index, listCtrl.students.indexOf(student), true)">
+				<div class="name" ng-click="listCtrl.startEditing(listCtrl.students.indexOf(student), $index, true)">
 					{{student.name}}
 					<input class="hidden" type="text" maxlength="17" placeholder="Name" title="Name" ng-model="listCtrl.student.name" required />
 				</div>
 
-				<div class="score" ng-class="{failing : listCtrl.isScoreFailing(student.score)}" ng-click="listCtrl.startEditing($index, listCtrl.students.indexOf(student), true)">
+				<div class="score" ng-class="{failing : listCtrl.isScoreFailing(student.score)}" ng-click="listCtrl.startEditing(listCtrl.students.indexOf(student), $index, true)">
 					{{student.score}}
 					<input class="hidden" type="number" min="0" max="100" placeholder="Score" title="Score" ng-model="listCtrl.student.score" required />
 				</div>
 
-				<div class="deleteBtn" ng-show="listCtrl.checkActive($index) && studentForm.$valid" ng-click="listCtrl.deleteEntry($index, listCtrl.students.indexOf(student))">X</div>
+				<div class="deleteBtn" ng-show="listCtrl.checkActive($index) && studentForm.$valid" ng-click="listCtrl.deleteEntry(listCtrl.students.indexOf(student), $index)">X</div>
 				
 				<input class="hidden" ng-click="listCtrl.stopPropagation(studentForm.$valid)" type="submit" value="Submit" />
 			</fieldset>

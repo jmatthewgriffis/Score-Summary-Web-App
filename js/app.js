@@ -22,6 +22,7 @@
 		this.orderBy = '';
 		this.sortText = 'when added';
 
+		var editedIndex = -1;
 		var storageIndex = 0;
 
 		this.addEntry = function(myName, myScore, needsToBeStored)
@@ -67,7 +68,7 @@
 		{
 			return (this.active === index);
 		};
-		this.startEditing = function(iSortIndex, iArrayIndex, bIsEditing)
+		this.startEditing = function(iArrayIndex, iSortIndex, bIsEditing)
 		{
 			if (checkForIncompleteForm()) { return; }
 
@@ -75,6 +76,7 @@
 
 			event.stopPropagation();
 			this.stopEditing();
+			editedIndex = iArrayIndex;
 
 			var selectedInput = event.srcElement.firstElementChild;
 			// if (debug) { console.log(selectedInput); }
@@ -84,39 +86,60 @@
 			this.setActive(iSortIndex);
 			if (debug && bIsEditing) { console.log("ENTERED edit mode; started editing entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 		};
-		this.stopEditing = function(iSortIndex, iArrayIndex)
+		this.stopEditing = function(iArrayIndex, iSortIndex, bIsDeleting)
 		{
 			if (checkForIncompleteForm()) { return; }
 
-			if (debug)
+			// Clicked away rather than pressing ENTER; index details may not be available.
+			if (iArrayIndex === undefined)
 			{
-				// Clicked away rather than pressing ENTER; index details are not available.
-				if (iArrayIndex === undefined)
+				if (checkForCompleteForm()) // Submitted.
 				{
-					if (checkForCompleteForm()) // Submitted.
+					if (editedIndex !== -1)
 					{
-						console.log('EXITED edit mode (via click-away); successfully edited entry.');
-					}
-					else // Did not submit.
-					{
-						if (debug) { console.log('clicked container; no entries changed.'); }
-						return;
+						if (debug) { console.log('EXITED edit mode (via click-away); successfully edited entry [array index = ' + editedIndex + '].'); }
+
+						if (!bIsDeleting)
+						{
+							// Update localStorage.
+							var tmpJSON = JSON.stringify(this.students[editedIndex]);
+							localStorage.setItem(editedIndex, tmpJSON);
+							if (debug) { console.log('updated entry in localStorage.'); }
+						}
+
+						editedIndex = -1;
 					}
 				}
-				// Pressed ENTER; index details are available.
-				else { console.log('EXITED edit mode; successfully edited entry [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
+				else // Did not submit.
+				{
+					if (debug) { console.log('clicked container; no entries changed.'); }
+					return;
+				}
+			}
+			// Pressed ENTER; index details are available.
+			else
+			{
+				if (debug) { console.log('EXITED edit mode; successfully edited entry [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
+
+				if (!bIsDeleting)
+				{
+					// Update localStorage.
+					var tmpJSON = JSON.stringify(this.student);
+					localStorage.setItem(iArrayIndex, tmpJSON);
+					if (debug) { console.log('updated entry in localStorage.'); }
+				}
 			}
 			
 			$('.activeField').removeClass('activeField').addClass('hidden');
 			this.student = {};
 			this.setActive(-1);
 		};
-		this.deleteEntry = function(iSortIndex, iArrayIndex)
+		this.deleteEntry = function(iArrayIndex, iSortIndex)
 		{
 			var tmp1 = this.students[iArrayIndex];
 			var tmp2 = {};
 
-			this.stopEditing(iSortIndex, iArrayIndex);
+			this.stopEditing(iArrayIndex, iSortIndex, true);
 			this.students.splice(iArrayIndex, 1);
 			if (debug) { console.log('DELETED entry [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
 
