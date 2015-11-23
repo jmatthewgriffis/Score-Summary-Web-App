@@ -17,13 +17,11 @@
 
 		this.startNewSession = function()
 		{
-			// Initial clean.
 			localStorage.clear();
 			console.log("started new session; cleared localStorage.");
 			localStorage.setItem('storageWasCleared', JSON.stringify('true'));
 
 			console.log('adding initial student data...');
-			// Set initial students.
 			this.addEntry('Mary', 75, true);
 			this.addEntry('Tyler', 32, true);
 			this.addEntry('Moore', 100, true);
@@ -49,13 +47,12 @@
 
 		this.addEntry = function(myName, myScore, needsToBeStored)
 		{
-			// console.log('name = ' + myName + '; score = ' + myScore);
-			var tmp =
+			var tmp = // Method was called on bootup; data is passed in via arguments.
 			{
 				name: myName,
 				score: myScore
 			};
-			if (myName === undefined)
+			if (myName === undefined) // Method was called via form submission; data is passed in via ng-model.
 			{
 				tmp = this.student;
 				$('.newStudent input.name').focus();
@@ -65,14 +62,14 @@
 			this.students.push(tmp);
 			this.student = {};
 
-			// Write into localStorage.
+			// Write into localStorage. Entries already in storage are not rewritten.
 			if (myName === undefined || needsToBeStored)
 			{
 				var tmpJSON = JSON.stringify(tmp);
 				localStorage.setItem(storageIndex, tmpJSON);
 				if (debug) { console.log('added entry to localStorage.'); }
 			}
-			storageIndex++;
+			storageIndex++; // This may not be necessary, but is an attempt to give each item in storage a unique key.
 		};
 
 		this.switchOrder = function()
@@ -80,11 +77,14 @@
 			if (checkForIncompleteForm()) { return; }
 
 			if (debug) { console.log('was sorting by ' + this.sortText); }
+
 			if (this.orderBy === '') { this.orderBy = 'name'; }
 			else if (this.orderBy === 'name') { this.orderBy = 'score'; }
 			else { this.orderBy = ''; }
+
 			this.sortText = this.orderBy;
 			if (this.sortText === '') { this.sortText = 'when added'; }
+
 			if (debug) { console.log('now sorting by ' + this.sortText); }
 		};
 
@@ -105,12 +105,12 @@
 			if (debug) { console.log("\nclicked entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 
 			event.stopPropagation();
-			this.stopEditing();
+			this.stopEditing(); // End any previous editing.
 			editedIndex = iArrayIndex;
 
 			var selectedInput = event.srcElement.firstElementChild;
 			// if (debug) { console.log(selectedInput); }
-			$(selectedInput).removeClass('hidden').addClass('activeField').focus();
+			$(selectedInput).removeClass('hidden').addClass('activeField').focus(); // Get the focus on whatever input was clicked (previously hidden).
 
 			this.student = this.students[iArrayIndex];
 			this.setActive(iSortIndex);
@@ -121,12 +121,11 @@
 		{
 			if (checkForIncompleteForm()) { return; }
 
-			// Clicked away rather than pressing ENTER; index details may not be available.
-			if (iArrayIndex === undefined)
+			if (iArrayIndex === undefined) // Clicked away rather than pressing ENTER; index details may not be available.
 			{
 				if (checkForCompleteForm()) // Submitted.
 				{
-					if (editedIndex !== -1)
+					if (editedIndex !== -1) // We have reference to whatever was just being edited!
 					{
 						if (debug) { console.log('EXITED edit mode (via click-away); successfully edited entry [array index = ' + editedIndex + '].'); }
 
@@ -145,8 +144,7 @@
 					return;
 				}
 			}
-			// Pressed ENTER; index details are available.
-			else
+			else // Pressed ENTER and submitted; index details are available.
 			{
 				if (debug) { console.log('EXITED edit mode; successfully edited entry [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
 
@@ -185,6 +183,7 @@
 					break;
 				}
 			}
+			// This is not the best method, since it would trip up on duplicate entries; would be better to find a way to get the correct index.
 		};
 
 		this.stopPropagation = function(bisSubmitting)
@@ -214,22 +213,13 @@
 
 			for (var i = 0; i < this.students.length; i++)
 			{
-				// Update min.
-				if (this.students[i].score < this.minScore)
-				{
-					this.minScore = this.students[i].score;
-				}
+				if (this.students[i].score < this.minScore) { this.minScore = this.students[i].score; } // Update min.
 
-				// Update max.
-				if (this.students[i].score > this.maxScore)
-				{
-					this.maxScore = this.students[i].score;
-				}
+				if (this.students[i].score > this.maxScore) { this.maxScore = this.students[i].score; } // Update max.
 
-				// Update sum.
 				sum += this.students[i].score;
 			}
-			// Get avg.
+
 			var avg = sum / this.students.length;
 			return avg;
 		};
@@ -250,7 +240,7 @@
 			}
 			return foundIncompleteForm;
 		};
-		
+
 		function checkForCompleteForm()
 		{
 			var foundCompleteForm = false;
