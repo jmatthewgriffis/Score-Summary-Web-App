@@ -25,20 +25,11 @@
 		this.switchOrder = function()
 		{
 			if (checkForIncompleteForm()) { return; }
-			
+
 			if (debug) { console.log('was sorting by ' + this.sortText); }
-			if (this.orderBy === '')
-			{
-				this.orderBy = 'name';
-			}
-			else if (this.orderBy === 'name')
-			{
-				this.orderBy = 'score';
-			}
-			else
-			{
-				this.orderBy = '';
-			}
+			if (this.orderBy === '') { this.orderBy = 'name'; }
+			else if (this.orderBy === 'name') { this.orderBy = 'score'; }
+			else { this.orderBy = ''; }
 			this.sortText = this.orderBy;
 			if (this.sortText === '') { this.sortText = 'when added'; }
 			if (debug) { console.log('now sorting by ' + this.sortText); }
