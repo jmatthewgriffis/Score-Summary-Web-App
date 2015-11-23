@@ -47,10 +47,7 @@
 			// if (debug) { console.log(selectedInput); }
 			$(selectedInput).removeClass('hidden').addClass('activeField').focus();
 
-			if (this.active === iSortIndex) { return; } // Already editing find me yo
-
-			this.student = this.students[iArrayIndex]; // find me yo Here is the problem. for some reason after delting an element any ones below it in the array are it is passing in the next index (+1)
-			/* AHH I FIGURED IT OUT! ARRAYINDEX IS THE ASSIGNED VALUE AS A PROPERTY, IT'S NOT THE ACTUAL ARRAY INDEX, DUH! THAT IS CHANGING WHEN AN ELEMENT IS REMOVED */
+			this.student = this.students[iArrayIndex];
 			this.setActive(iSortIndex);
 			if (debug && bIsEditing) { console.log("ENTERED edit mode; started editing entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 		};
@@ -69,7 +66,7 @@
 					}
 					else // Did not submit.
 					{
-						if (debug && ($('.activeField').length === 0)) { console.log('clicked container; no changes submitted.'); }
+						if (debug) { console.log('clicked container; no changes submitted.'); }
 						return;
 					}
 				}
@@ -95,9 +92,6 @@
 				if (bisSubmitting) { console.log('form submitted; event propagation stopped.'); }
 				else { console.log('\nevent propagation stopped.'); }
 			}
-		};
-		this.test = function() { // find me yo
-			console.log('TEST: registered a click.');
 		};
 
 		function checkForIncompleteForm()
