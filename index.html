@@ -90,34 +90,34 @@
 		}
 	</script>
 
-	<div class="studentsContainer" ng-controller="ReviewController as reviewCtrl" ng-click="reviewCtrl.stopEditing()">
+	<div class="studentsContainer" ng-controller="ListController as listCtrl" ng-click="listCtrl.stopEditing()">
 		<!-- Current students -->
-		<form name="reviewForm" class="currentStudent" ng-class="{'highlight' : reviewCtrl.checkActive($index), 'invalidForm' : reviewCtrl.checkActive($index) && !reviewForm.$valid, 'validForm' : reviewCtrl.checkActive($index) && reviewForm.$valid}" ng-repeat="product in reviewCtrl.products | orderBy: 'name'" ng-submit="reviewForm.$valid && reviewCtrl.stopEditing($index, reviewCtrl.products.indexOf(product))" novalidate>
+		<form name="studentForm" class="currentStudent" ng-class="{'highlight' : listCtrl.checkActive($index), 'invalidForm' : listCtrl.checkActive($index) && !studentForm.$valid, 'validForm' : listCtrl.checkActive($index) && studentForm.$valid}" ng-repeat="student in listCtrl.students | orderBy: 'name'" ng-submit="studentForm.$valid && listCtrl.stopEditing($index, listCtrl.students.indexOf(student))" novalidate>
 			<fieldset>
-				<div class="name" ng-click="reviewCtrl.startEditing($index, reviewCtrl.products.indexOf(product), true)">
-					{{product.name}}
-					<input class="hidden" type="text" placeholder="Name..." value={{product.name}} title="Review" ng-model="reviewCtrl.review.name" required />
+				<div class="name" ng-click="listCtrl.startEditing($index, listCtrl.students.indexOf(student), true)">
+					{{student.name}}
+					<input class="hidden" type="text" placeholder="Name" title="Name" ng-model="listCtrl.student.name" required />
 				</div>
 
-				<div class="score" ng-click="reviewCtrl.startEditing($index, reviewCtrl.products.indexOf(product), true)">
-					{{product.score}}
-					<input class="hidden" type="number" placeholder="Score..." title="Email" ng-model="reviewCtrl.review.score" required />
+				<div class="score" ng-click="listCtrl.startEditing($index, listCtrl.students.indexOf(student), true)">
+					{{student.score}}
+					<input class="hidden" type="number" placeholder="Score" title="Score" ng-model="listCtrl.student.score" required />
 				</div>
 
-				<div ng-show="reviewCtrl.checkActive($index)" ng-click="reviewCtrl.delete($index, reviewCtrl.products.indexOf(product))">X</div>
+				<div ng-show="listCtrl.checkActive($index)" ng-click="listCtrl.deleteEntry($index, listCtrl.students.indexOf(student))">X</div>
 				
-				<input ng-click="reviewCtrl.stopPropagation(reviewForm.$valid)" class="hidden" type="submit" value="Submit" />
+				<input class="hidden" ng-click="listCtrl.stopPropagation(studentForm.$valid)" type="submit" value="Submit" />
 			</fieldset>
-			<!-- <div>reviewForm is {{reviewForm.$valid}}</div> -->
+			<!-- <div>studentForm is {{studentForm.$valid}}</div> -->
 		</form>
 		<!--  New student -->
-		<form name="reviewForm" class="newStudent" ng-class="{'hidden2' : !reviewCtrl.checkActive(-1)}" ng-submit="reviewForm.$valid && reviewCtrl.addReview()" novalidate>
+		<form name="studentForm" class="newStudent" ng-class="{'hidden2' : !listCtrl.checkActive(-1)}" ng-submit="studentForm.$valid && listCtrl.addEntry()" novalidate>
 			<fieldset>
-				<input class="name" type="text" placeholder="Name" title="Review" ng-model="reviewCtrl.review.name" ng-click="reviewCtrl.stopPropagation()" required />
+				<input class="name" type="text" placeholder="Name" title="Name" ng-model="listCtrl.student.name" ng-click="listCtrl.stopPropagation()" required />
 
-				<input class="score" type="number" placeholder="Score" title="Email" ng-model="reviewCtrl.review.score" ng-click="reviewCtrl.stopPropagation()" required />
+				<input class="score" type="number" placeholder="Score" title="Score" ng-model="listCtrl.student.score" ng-click="listCtrl.stopPropagation()" required />
 				
-				<input type="submit" value="Add Student"  ng-click="reviewCtrl.stopPropagation()" />
+				<input ng-click="listCtrl.stopPropagation()" type="submit" value="Add Student" />
 			</fieldset>
 		</form>
 	</div>

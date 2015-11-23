@@ -12,11 +12,11 @@
 		});*/
 	}]);
 
-	app.controller('ReviewController', function()
+	app.controller('ListController', function()
 	{
-		this.products = students;
+		this.students = students;
 		this.active = -1;
-		this.review = {};
+		this.student = {};
 
 		this.setActive = function(index)
 		{
@@ -26,11 +26,11 @@
 		{
 			return (this.active === index);
 		};
-		this.addReview = function()
+		this.addEntry = function()
 		{
-			if (debug) { console.log(this.review); }
-			this.products.push(this.review);
-			this.review = {};
+			if (debug) { console.log(this.student); }
+			this.students.push(this.student);
+			this.student = {};
 		};
 		this.startEditing = function(iSortIndex, iArrayIndex, bIsEditing)
 		{
@@ -46,7 +46,7 @@
 
 			if (this.active === iSortIndex) { return; } // Already editing
 
-			this.review = this.products[iArrayIndex]; // Here is the problem. for some reason after delting an element any ones below it in the array are it is passing in the next index (+1)
+			this.student = this.students[iArrayIndex]; // Here is the problem. for some reason after delting an element any ones below it in the array are it is passing in the next index (+1)
 			/* AHH I FIGURED IT OUT! ARRAYINDEX IS THE ASSIGNED VALUE AS A PROPERTY, IT'S NOT THE ACTUAL ARRAY INDEX, DUH! THAT IS CHANGING WHEN AN ELEMENT IS REMOVED */
 			this.setActive(iSortIndex);
 			if (!debug && bIsEditing) { console.log("ENTERED edit mode; started editing entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
@@ -74,13 +74,13 @@
 			}
 			
 			$('.activeField').removeClass('activeField').addClass('hidden');
-			this.review = {};
+			this.student = {};
 			this.setActive(-1);
 		};
-		this.delete = function(iSortIndex, iArrayIndex)
+		this.deleteEntry = function(iSortIndex, iArrayIndex)
 		{
 			this.stopEditing(iSortIndex, iArrayIndex);
-			this.products.splice(iArrayIndex, 1);
+			this.students.splice(iArrayIndex, 1);
 			if (!debug) { console.log('DELETED entry: [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
 		};
 		this.stopPropagation = function(bisSubmitting)
@@ -99,7 +99,7 @@
 			}
 		};
 		this.test = function() {
-			console.log('TEST: container registered a click.');
+			console.log('TEST: registered a click.');
 		};
 
 		function checkForIncompleteForm()
