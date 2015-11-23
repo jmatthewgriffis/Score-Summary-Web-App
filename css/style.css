@@ -37,6 +37,12 @@
 	text-align: center;
 }
 
+.currentStudent,
+.newStudent
+{
+	position: relative;
+}
+
 .currentStudent div
 {
 	position: relative;
@@ -55,6 +61,15 @@
 	height: 100%;
 	padding: inherit;
 	border: none;
+}
+
+.currentStudent .deleteBtn,
+.newStudent .submitBtn
+{
+	position: absolute;
+	top: 20px;
+	bottom: 20px;
+	padding: 0 5px;
 }
 
 .newStudent

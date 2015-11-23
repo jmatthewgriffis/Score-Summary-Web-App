@@ -104,7 +104,7 @@
 					<input class="hidden" type="number" placeholder="Score" title="Score" ng-model="listCtrl.student.score" required />
 				</div>
 
-				<div ng-show="listCtrl.checkActive($index)" ng-click="listCtrl.deleteEntry($index, listCtrl.students.indexOf(student))">X</div>
+				<div class="deleteBtn" ng-show="listCtrl.checkActive($index)" ng-click="listCtrl.deleteEntry($index, listCtrl.students.indexOf(student))">X</div>
 				
 				<input class="hidden" ng-click="listCtrl.stopPropagation(studentForm.$valid)" type="submit" value="Submit" />
 			</fieldset>
@@ -117,7 +117,7 @@
 
 				<input class="score" type="number" placeholder="Score" title="Score" ng-model="listCtrl.student.score" ng-click="listCtrl.stopPropagation()" required />
 				
-				<input ng-click="listCtrl.stopPropagation()" type="submit" value="Add Student" />
+				<input class="submitBtn" ng-click="listCtrl.stopPropagation()" type="submit" value="Add Student" />
 			</fieldset>
 		</form>
 	</div>

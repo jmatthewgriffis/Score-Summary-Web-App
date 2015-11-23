@@ -14,7 +14,7 @@
 
 	app.controller('ListController', function()
 	{
-		var debug = true;
+		var debug = false;
 
 		this.students = students;
 		this.active = -1;
