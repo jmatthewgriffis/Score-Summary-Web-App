@@ -1,39 +1,58 @@
 (function()
 {
-	var app = angular.module('gemStore', ['store-directives']);
-
-	app.controller('StoreController', ['$http', function($http)
-	{
-		/*var store = this;
-		store.products = [];	
-		$http.get('json/products.json').success(function(data)
-		{
-			store.products = data;
-		});*/
-	}]);
+	var app = angular.module('testScoreList', ['directives']);
 
 	app.controller('ListController', function()
 	{
-		var debug = false;
+		var debug = false; // Turn this on to log many helpful messages.
 
 		this.students = [];
-		this.active = -1;
 		this.student = {};
+		this.active = -1;
 		this.orderBy = '';
 		this.sortText = 'when added';
 
 		var editedIndex = -1;
 		var storageIndex = 0;
 
+		this.startNewSession = function()
+		{
+			localStorage.clear();
+			console.log("started new session; cleared localStorage.");
+			localStorage.setItem('storageWasCleared', JSON.stringify('true'));
+
+			console.log('adding initial student data...');
+			this.addEntry('Mary', 75, true);
+			this.addEntry('Tyler', 32, true);
+			this.addEntry('Moore', 100, true);
+			console.log('finished adding initial student data.');
+		};
+
+		this.resumeExistingSession = function()
+		{
+			console.log("resumed existing session.");
+
+			if (localStorage.length > 1) { console.log('loading student data from localStorage...'); }
+			for (var i in localStorage)
+			{
+				if (localStorage.getItem(i) !== localStorage.getItem('storageWasCleared'))
+				{
+					var JSONparsed = JSON.parse(localStorage.getItem(i));
+					// if (debug) { console.log(JSONparsed); }
+					this.addEntry(JSONparsed.name, JSONparsed.score);
+				}
+			}
+			if (localStorage.length > 1) { console.log('finished loading student data from localStorage.'); }
+		};
+
 		this.addEntry = function(myName, myScore, needsToBeStored)
 		{
-			// console.log('name = ' + myName + '; score = ' + myScore);
-			var tmp =
+			var tmp = // Method was called on bootup; data is passed in via arguments.
 			{
 				name: myName,
 				score: myScore
 			};
-			if (myName === undefined)
+			if (myName === undefined) // Method was called via form submission; data is passed in via ng-model.
 			{
 				tmp = this.student;
 				$('.newStudent input.name').focus();
@@ -43,35 +62,42 @@
 			this.students.push(tmp);
 			this.student = {};
 
-			// Write into localStorage.
+			// Write into localStorage. Entries already in storage are not rewritten.
 			if (myName === undefined || needsToBeStored)
 			{
 				var tmpJSON = JSON.stringify(tmp);
 				localStorage.setItem(storageIndex, tmpJSON);
 				if (debug) { console.log('added entry to localStorage.'); }
 			}
-			storageIndex++;
+			storageIndex++; // This may not be necessary, but is an attempt to give each item in storage a unique key.
 		};
+
 		this.switchOrder = function()
 		{
 			if (checkForIncompleteForm()) { return; }
 
 			if (debug) { console.log('was sorting by ' + this.sortText); }
+
 			if (this.orderBy === '') { this.orderBy = 'name'; }
 			else if (this.orderBy === 'name') { this.orderBy = 'score'; }
 			else { this.orderBy = ''; }
+
 			this.sortText = this.orderBy;
 			if (this.sortText === '') { this.sortText = 'when added'; }
+
 			if (debug) { console.log('now sorting by ' + this.sortText); }
 		};
+
 		this.setActive = function(index)
 		{
 			this.active = index;
 		};
+
 		this.checkActive = function(index)
 		{
 			return (this.active === index);
 		};
+
 		this.startEditing = function(iArrayIndex, iSortIndex, bIsEditing)
 		{
 			if (checkForIncompleteForm()) { return; }
@@ -79,27 +105,27 @@
 			if (debug) { console.log("\nclicked entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 
 			event.stopPropagation();
-			this.stopEditing();
+			this.stopEditing(); // End any previous editing.
 			editedIndex = iArrayIndex;
 
 			var selectedInput = event.srcElement.firstElementChild;
 			// if (debug) { console.log(selectedInput); }
-			$(selectedInput).removeClass('hidden').addClass('activeField').focus();
+			$(selectedInput).removeClass('hidden').addClass('activeField').focus(); // Get the focus on whatever input was clicked (previously hidden).
 
 			this.student = this.students[iArrayIndex];
 			this.setActive(iSortIndex);
 			if (debug && bIsEditing) { console.log("ENTERED edit mode; started editing entry [sort index = " + iSortIndex + ", array index = " + iArrayIndex + "]."); }
 		};
+
 		this.stopEditing = function(iArrayIndex, iSortIndex, bIsDeleting)
 		{
 			if (checkForIncompleteForm()) { return; }
 
-			// Clicked away rather than pressing ENTER; index details may not be available.
-			if (iArrayIndex === undefined)
+			if (iArrayIndex === undefined) // Clicked away rather than pressing ENTER; index details may not be available.
 			{
 				if (checkForCompleteForm()) // Submitted.
 				{
-					if (editedIndex !== -1)
+					if (editedIndex !== -1) // We have reference to whatever was just being edited!
 					{
 						if (debug) { console.log('EXITED edit mode (via click-away); successfully edited entry [array index = ' + editedIndex + '].'); }
 
@@ -118,8 +144,7 @@
 					return;
 				}
 			}
-			// Pressed ENTER; index details are available.
-			else
+			else // Pressed ENTER and submitted; index details are available.
 			{
 				if (debug) { console.log('EXITED edit mode; successfully edited entry [sort index = ' + iSortIndex  + ", array index = " + iArrayIndex + "]."); }
 
@@ -137,6 +162,7 @@
 			this.setActive(-1);
 			editedIndex = -1;
 		};
+
 		this.deleteEntry = function(iArrayIndex, iSortIndex)
 		{
 			var tmp1 = this.students[iArrayIndex];
@@ -157,7 +183,9 @@
 					break;
 				}
 			}
+			// This is not the best method, since it would trip up on duplicate entries; would be better to find a way to get the correct index.
 		};
+
 		this.stopPropagation = function(bisSubmitting)
 		{
 			event.stopPropagation();
@@ -167,12 +195,14 @@
 				else { console.log('event propagation stopped.'); }
 			}
 		};
+
 		this.isScoreFailing = function(score)
 		{
 			var failing = false;
 			if (score < 65) { failing = true; }
 			return failing;
 		};
+
 		this.calcMinMaxAvg = function()
 		{
 			var sum = 0;
@@ -183,25 +213,17 @@
 
 			for (var i = 0; i < this.students.length; i++)
 			{
-				// Update min.
-				if (this.students[i].score < this.minScore)
-				{
-					this.minScore = this.students[i].score;
-				}
+				if (this.students[i].score < this.minScore) { this.minScore = this.students[i].score; } // Update min.
 
-				// Update max.
-				if (this.students[i].score > this.maxScore)
-				{
-					this.maxScore = this.students[i].score;
-				}
+				if (this.students[i].score > this.maxScore) { this.maxScore = this.students[i].score; } // Update max.
 
-				// Update sum.
 				sum += this.students[i].score;
 			}
-			// Get avg.
+
 			var avg = sum / this.students.length;
 			return avg;
 		};
+
 		this.resetSession = function()
 		{
 			localStorage.clear();
@@ -218,6 +240,7 @@
 			}
 			return foundIncompleteForm;
 		};
+
 		function checkForCompleteForm()
 		{
 			var foundCompleteForm = false;
@@ -225,115 +248,13 @@
 			return foundCompleteForm;
 		};
 
-
-
-		// Local storage madness
-		var myStudents = [
-			{name: 'mary', score: 75},
-			{name: 'joe', score: 32}
-		];
-		//var mary = {mary: 75};
-		//var joe = {joe: 32};
-		var studentsJSON = JSON.stringify(myStudents);
-
-		/*var test1 = "yay";
-		var test1J = JSON.stringify(test1);
-		var test2 = "boo";
-		var test2J = JSON.stringify(test2);
-		var test3 = "uh";
-		var test3J = JSON.stringify(test3);
-		localStorage.setItem('test1', test1J);
-		localStorage.setItem('test2', test2J);
-		localStorage.setItem('test3', test3J);
-		for (var i in localStorage)
-		{
-			console.log(localStorage.getItem(i));
-		}
-		test2 = "booya";
-		var test2J = JSON.stringify(test2);
-		localStorage.setItem('test2', test2J);
-		for (var i in localStorage)
-		{
-			console.log(localStorage.getItem(i));
-		}
-
-		localStorage.clear();*/
-		/*if (typeof(localStorage) == 'undefined' )
-		{
-			alert('Your browser does not support HTML5 localStorage. Try upgrading.');
-		}
-		else
-		{
-			if (localStorage.getItem('students') === null)
-			{
-				try
-				{
-					localStorage.setItem('students', studentsJSON); //saves to the database, “key”, “value”
-					if (debug) { console.log('students set!'); }
-				}
-				catch (e)
-				{
-					if (e == QUOTA_EXCEEDED_ERR)
-					{
-						alert('Quota exceeded!'); //data wasn’t successfully saved due to quota exceed so throw an error
-					}
-				}
-			}
-			else
-			{
-				if (debug) { console.log('students array already exists!'); }
-			}
-			// if (debug) { document.write(localStorage.getItem('students')); } //Hello World!
-			var studentsJSONparsed = JSON.parse(localStorage.getItem('students'));
-			if (debug) { console.log(studentsJSONparsed); }
-			//console.log("mary's score = " + studentsJSONparsed.mary);
-			studentsJSONparsed.forEach(function(key, value)
-			{
-			    if (debug) { console.log(key + ' = ' + value); }
-			});
-			for (var i = 0; i < studentsJSONparsed.length; i++)
-			{
-				console.log(studentsJSONparsed[i].name);
-			}
-			console.log(localStorage.length);
-			for (var i in localStorage)
-			{
-				console.log(localStorage.getItem(i));
-			}
-			// localStorage.removeItem('students'); //deletes the matching item from the database
-			localStorage.clear();
-		}*/
-
 		// Boot-up check of localStorage.
-		if (localStorage.getItem('storageWasCleared') === null)
-		{
-			// Initial clean.
-			localStorage.clear();
-			console.log("started new session; cleared localStorage.");
-			localStorage.setItem('storageWasCleared', JSON.stringify('true'));
+		if (localStorage.getItem('storageWasCleared') === null) { this.startNewSession(); }
+		else { this.resumeExistingSession(); }
 
-			console.log('adding initial student data...');
-			// Set initial students.
-			this.addEntry('Mary', 75, true);
-			this.addEntry('Tyler', 32, true);
-			this.addEntry('Moore', 100, true);
-			console.log('finished adding initial student data.');
-		}
-		else
-		{
-			console.log("resumed existing session.");
-
-			if (localStorage.length > 1) { console.log('loading student data from localStorage...'); }
-			for (var i in localStorage)
-			{
-				if (localStorage.getItem(i) !== localStorage.getItem('storageWasCleared'))
-				{
-					var JSONparsed = JSON.parse(localStorage.getItem(i));
-					// if (debug) { console.log(JSONparsed); }
-					this.addEntry(JSONparsed.name, JSONparsed.score);
-				}
-			}
-			if (localStorage.length > 1) { console.log('finished loading student data from localStorage.'); }
-		}
+		// Thanks to http://html5tutorial.net/tutorials/working-with-html5-localstorage.html
+		// Also to http://samcroft.co.uk/2013/using-localstorage-to-store-json/
+		// Also to http://stackoverflow.com/questions/3138564/looping-through-localstorage-in-html5-and-javascript
+		// Also to you, for reading this.
 	});
 })();

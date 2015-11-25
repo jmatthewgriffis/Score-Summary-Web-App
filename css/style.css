@@ -8,8 +8,6 @@
 	border-color: green;
 }
 
-/* MINE */
-
 .bold
 {
 	font-weight: bold;
@@ -38,7 +36,7 @@
 
 .highlight
 {
-	/*background-color: green;*/
+	/**/
 }
 
 .failing
@@ -46,10 +44,12 @@
 	background-color: yellow!important;
 }
 
-.studentsContainer
+.wrapper
 {
-	border: 1px solid black;
 	text-align: center;
+	width: 100vw;
+	min-height: 100vh;
+	padding: 20px;
 }
 
 .currentStudent,
@@ -58,25 +58,74 @@
 	position: relative;
 }
 
-.studentsContainer div
+.myContainer
+{
+	width: 50vw;
+}
+
+.summaryContainer
+{
+	display: block!important;
+}
+
+.summaryContainer h1
+{
+	border: 1px solid black;
+	margin: 20px auto;
+	padding: 10px;
+	width: 50%;
+}
+
+.sortControls
+{
+	margin-top: 20px;
+}
+.changeOrder
+{
+	vertical-align: bottom;
+	position: relative;
+	top: 3px;
+}
+
+.jumbo
+{
+	font-size: 2em;
+}
+
+.myContainer:last-child
+{
+	position: fixed;
+    top: 0;
+    right: 0;
+    padding-top: 45px;
+    padding-right: 45px;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.warning
+{
+	border: 1px solid black;
+	margin: 10px;
+	padding: 10px;
+}
+
+.wrapper div div
 {
 	position: relative;
 	display: inline-block;
 	vertical-align: top;
 	background-color: white;
-	border: 1px solid black;
 }
 
-div.columnLabels
+div.labels
 {
-	border: none;
+	border-bottom: 2px solid black;
 }
 
-.columnLabels div
+.currentStudent div
 {
-	border-top: none;
-	border-left: none;
-	border-right: none;
+	cursor: pointer;
 }
 
 .currentStudent div input

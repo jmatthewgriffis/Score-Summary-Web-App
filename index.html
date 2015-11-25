@@ -1,98 +1,36 @@
 <!DOCTYPE html>
-<html ng-app="gemStore">
+<html ng-app="testScoreList">
 <head>
-
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<script type="text/javascript" src="js/angular.min.js"></script>
 	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
-	<script type="text/javascript" src="js/products.js"></script>
-
+	<script type="text/javascript" src="js/directives.js"></script>
 </head>
-<body ng-controller="StoreController as store">
-	<!-- FIND ME YO -->
-	<script type="text/javascript">
-	// Thanks to http://html5tutorial.net/tutorials/working-with-html5-localstorage.html
-	// Also to http://samcroft.co.uk/2013/using-localstorage-to-store-json/
-	// Also to http://stackoverflow.com/questions/3138564/looping-through-localstorage-in-html5-and-javascript
-		/*if (typeof(localStorage) == 'undefined' )
-		{
-			alert('Your browser does not support HTML5 localStorage. Try upgrading.');
-		}
-		else
-		{
-			if (localStorage.getItem("name") === null)
-			{
-				try
-				{
-					localStorage.setItem("name", "Hello World!"); //saves to the database, “key”, “value”
-					console.log('name set!');
-				}
-				catch (e)
-				{
-					if (e == QUOTA_EXCEEDED_ERR)
-					{
-						alert('Quota exceeded!'); //data wasn’t successfully saved due to quota exceed so throw an error
-					}
-				}
-			}
-			else
-			{
-				console.log('name already exists!');
-			}
-			document.write(localStorage.getItem("name")); //Hello World!
-			//localStorage.removeItem("name"); //deletes the matching item from the database
-		}*/
-	</script>
+<body>
+	<div class="wrapper" ng-controller="ListController as listCtrl" ng-click="listCtrl.stopEditing()">
+		
+		<div class="myContainer">
 
-	<div class="studentsContainer" ng-controller="ListController as listCtrl" ng-click="listCtrl.stopEditing()">
-		<input class="" ng-click="listCtrl.resetSession()" type="button" value="Reset Session" />
-		<div class="columnLabels">
-			<div class="name">Name</div>
-			<div class="score">Pts / 100</div>
+			<column-labels></column-labels>
+
+			<edit-current-students></edit-current-students>
+		
+			<add-new-student></add-new-student>
+
 		</div>
-		<!-- Current students -->
-		<form name="studentForm" class="currentStudent" ng-class="{'highlight' : listCtrl.checkActive($index), 'invalidForm' : listCtrl.checkActive($index) && !studentForm.$valid, 'validForm' : listCtrl.checkActive($index) && studentForm.$valid}" ng-repeat="student in listCtrl.students | orderBy: listCtrl.orderBy" ng-submit="studentForm.$valid && listCtrl.stopEditing(listCtrl.students.indexOf(student), $index)" novalidate>
-			<fieldset>
-				<div class="name" ng-click="listCtrl.startEditing(listCtrl.students.indexOf(student), $index, true)">
-					{{student.name}}
-					<input class="hidden" type="text" maxlength="17" placeholder="Name" title="Name" ng-model="listCtrl.student.name" required />
-				</div>
 
-				<div class="score" ng-class="{failing : listCtrl.isScoreFailing(student.score)}" ng-click="listCtrl.startEditing(listCtrl.students.indexOf(student), $index, true)">
-					{{student.score}}
-					<input class="hidden" type="number" min="0" max="100" placeholder="Score" title="Score" ng-model="listCtrl.student.score" required />
-				</div>
+		<div class="myContainer">
 
-				<div class="deleteBtn" ng-show="listCtrl.checkActive($index) && studentForm.$valid" ng-click="listCtrl.deleteEntry(listCtrl.students.indexOf(student), $index)">X</div>
-				
-				<input class="hidden" ng-click="listCtrl.stopPropagation(studentForm.$valid)" type="submit" value="Submit" />
-			</fieldset>
-			<!-- <div>studentForm is {{studentForm.$valid}}</div> -->
-		</form>
-		<!--  New student -->
-		<form name="studentForm" class="newStudent" ng-class="{'hidden2' : !listCtrl.checkActive(-1)}" ng-submit="studentForm.$valid && listCtrl.addEntry()" novalidate>
-			<fieldset>
-				<input class="name" type="text" maxlength="17" placeholder="Name" title="Name" ng-model="listCtrl.student.name" ng-click="listCtrl.stopPropagation()" required />
+			<reset-button></reset-button>
 
-				<input class="score" type="number" min="0" max="100" placeholder="Score" title="Score" ng-model="listCtrl.student.score" ng-click="listCtrl.stopPropagation()" required />
-				
-				<input class="submitBtn" ng-click="listCtrl.stopPropagation()" type="submit" value="Add Student" />
-			</fieldset>
-		</form>
+			<statistics></statistics>
 
-		<div>Sorted by: {{listCtrl.sortText}}</div>
-		<input class="" ng-click="listCtrl.switchOrder()" type="button" value="Change" />
-		<div class="warning" ng-hide="listCtrl.orderBy === ''"><span class="bold">PLEASE NOTE:</span> Sorting is fun! But bugs are not. When sorting by anything other than "when added," editing an existing entry <span class="italic">such that its position in the order changes</span> can cause wonky behavior, e.g. a disruptive loss of form focus. Clear the sorting field out completely and it might even break the app, by rendering the wrong line invalid (based on the old order) and making it impossible to fix. I didn't have time to fix this bug. Sort by name or score at your own risk! Or stick with "when added" for the most stable experience. -Matt</div>
+			<sort-controls></sort-controls>
 
-		<div class="summaryContainer">
-			<h1>Score Summary</h1>
-			<h2>Min: {{listCtrl.minScore}}</h2>
-			<h2>Max: {{listCtrl.maxScore}}</h2>
-			<h2>Avg: {{listCtrl.calcMinMaxAvg() | number: '0'}}</h2>
 		</div>
+
 	</div>
-
 </body>
 </html>
