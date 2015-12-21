@@ -1,5 +1,5 @@
 #Score Summary
-**[LIVE VERSION HERE]()**
+**[LIVE VERSION HERE](http://jmatthewgriffis.com/projects/score-summary)**
 
 "Score Summary," for lack of a catchier name, is a simple one-page Web application I wrote to practice the **[model-view-controller (MVC) software architectural pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)**, using **[AngularJS](https://angularjs.org/)** and HTML5 local storage--the latter of which was completely new to me (and is very cool!).
 
