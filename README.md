@@ -47,4 +47,4 @@ If you want to download and run the project locally, here's what you need to kno
 Thanks for checking out my project!
 
 J. Matthew 'Matt' Griffis  
-[jmatthewgriffis.com](http://jmatthewgriffis.com/)
+**[jmatthewgriffis.com](http://jmatthewgriffis.com/)**
